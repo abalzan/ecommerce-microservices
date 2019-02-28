@@ -1,6 +1,6 @@
-package com.andrei.productapi.repository;
+package com.andrei.product.repository;
 
-import com.andrei.productapi.model.Product;
+import com.andrei.product.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {

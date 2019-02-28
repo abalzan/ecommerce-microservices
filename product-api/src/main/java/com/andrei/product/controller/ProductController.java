@@ -1,7 +1,7 @@
-package com.andrei.productapi.controller;
+package com.andrei.product.controller;
 
-import com.andrei.productapi.model.Product;
-import com.andrei.productapi.service.ProductService;
+import com.andrei.product.model.Product;
+import com.andrei.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

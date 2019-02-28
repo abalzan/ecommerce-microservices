@@ -1,4 +1,4 @@
-package com.andrei.productapi;
+package com.andrei.product;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

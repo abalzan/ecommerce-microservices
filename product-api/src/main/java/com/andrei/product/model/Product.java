@@ -1,4 +1,4 @@
-package com.andrei.productapi.model;
+package com.andrei.product.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

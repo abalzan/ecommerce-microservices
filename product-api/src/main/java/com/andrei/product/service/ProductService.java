@@ -1,7 +1,7 @@
-package com.andrei.productapi.service;
+package com.andrei.product.service;
 
-import com.andrei.productapi.model.Product;
-import com.andrei.productapi.repository.ProductRepository;
+import com.andrei.product.model.Product;
+import com.andrei.product.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
