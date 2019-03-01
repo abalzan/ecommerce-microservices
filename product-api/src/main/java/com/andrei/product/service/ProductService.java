@@ -1,5 +1,6 @@
 package com.andrei.product.service;
 
+import com.andrei.product.exception.Http404Exception;
 import com.andrei.product.model.Product;
 import com.andrei.product.repository.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -28,12 +29,11 @@ public class ProductService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("productName").descending());
 
         return productRepository.findAll(pageable);
-
     }
 
     public Optional<Product> getProduct(Long productId) {
 
-        return Optional.ofNullable(productRepository.findById(productId)).orElseThrow(() -> new RuntimeException("Product with id " + productId + " not found"));
+        return Optional.ofNullable(productRepository.findById(productId)).orElseThrow(() -> new Http404Exception("Resource not found"));
     }
 
     public void deleteProduct(Long productId) {
