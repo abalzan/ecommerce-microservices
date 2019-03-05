@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: mysql
+    active: dev
   application:
     name: product-api
   cloud:
