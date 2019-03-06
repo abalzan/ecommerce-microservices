@@ -1,3 +1,5 @@
+server:
+  port: 18100
 spring:
   profiles:
     active: dev
