@@ -6,6 +6,7 @@ import com.andrei.product.feign.CategoryFeignClient;
 import com.andrei.product.model.Category;
 import com.andrei.product.model.Product;
 import com.andrei.product.repository.ProductRepository;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,8 +28,14 @@ public class ProductService {
         this.categoryFeignClient = categoryFeignClient;
     }
 
+    @HystrixCommand(fallbackMethod = "saveProductWithouValidation")
     public Product save(Product product) {
         return productRepository.save(validateProductCategories(product));
+    }
+
+    public Product saveProductWithouValidation(Product product) {
+        log.error("Hystrix circut breaker enabled on saveProductWithouValidation");
+        return productRepository.save(product);
     }
 
     public Page<Product> getProductByPage(Integer pageNumber, Integer pageSize) {
