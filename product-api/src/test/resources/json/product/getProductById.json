@@ -1,0 +1,21 @@
+{
+  "id":1,
+  "productCode":"P2345872",
+  "productName":"Samsung 70 inch TV",
+  "shortDescription":"",
+  "longDescription":"70 inch Samsung Television with Retina Display",
+  "canDisplay":true,
+  "parentCategory":{
+    "id":3,
+    "categoryName":"Electronics",
+    "categoryDescription":"Electronics"
+  },
+  "category":{
+    "id":4,
+    "categoryName":"Televison",
+    "categoryDescription":"Televison"
+  },
+  "deleted":false,
+  "automotive":false,
+  "international":true
+}

@@ -40,7 +40,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         return new RestAPIException(new Date(), exception.getMessage(), "Requested resource not found");
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public @ResponseBody
     RestAPIException handleRuntimeException(Exception exception, WebRequest request, HttpServletResponse response) {
