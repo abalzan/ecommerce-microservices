@@ -1,13 +1,15 @@
 package com.andrei.product.controller;
 
 import com.andrei.product.event.ProductEvent;
-import com.andrei.product.exception.Http404Exception;
+import com.andrei.product.exception.ExceptionConstants;
 import com.andrei.product.model.Product;
 import com.andrei.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @RestController
@@ -30,7 +32,7 @@ public class ProductController extends AbstractController{
 
 	@GetMapping("/products/{id}")
 	public ResponseEntity<Product> getProduct(@PathVariable("id") long id) {
-		Product product = productService.getProduct(id).orElseThrow(() -> new Http404Exception("Product not found!"));
+		Product product = productService.getProduct(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.PRODUCT_NOT_FOUND));
 
 		ProductEvent productRetrievedEvent = new ProductEvent("Product retrieved", product);
 		applicationEventPublisher.publishEvent(productRetrievedEvent);
@@ -48,7 +50,7 @@ public class ProductController extends AbstractController{
 
 	@PutMapping("/products/{id}")
 	public ResponseEntity<?> updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
-        productService.getProduct(id).orElseThrow(() -> new Http404Exception("Product not found!"));
+        productService.getProduct(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found!"));
 
         productService.save(product);
 
@@ -60,7 +62,7 @@ public class ProductController extends AbstractController{
 
 	@DeleteMapping("/products/{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable("id") long id) {
-        productService.getProduct(id).orElseThrow(() -> new Http404Exception("Product not found!"));
+        productService.getProduct(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found!"));
 
 		productService.deleteProduct(id);
 		return ResponseEntity.ok().body("Product has been deleted successfully.");

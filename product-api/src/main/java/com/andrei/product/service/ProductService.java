@@ -1,7 +1,6 @@
 package com.andrei.product.service;
 
-import com.andrei.product.exception.Http400Exception;
-import com.andrei.product.exception.Http404Exception;
+import com.andrei.product.exception.ExceptionConstants;
 import com.andrei.product.feign.CategoryFeignClient;
 import com.andrei.product.model.Category;
 import com.andrei.product.model.Product;
@@ -12,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -28,14 +29,18 @@ public class ProductService {
         this.categoryFeignClient = categoryFeignClient;
     }
 
-    @HystrixCommand(fallbackMethod = "saveProductWithouValidation")
+    @HystrixCommand(fallbackMethod = "saveProductWithoutValidation")
     public Product save(Product product) {
         return productRepository.save(validateProductCategories(product));
     }
 
-    public Product saveProductWithouValidation(Product product) {
-        log.error("Hystrix circut breaker enabled on saveProductWithouValidation");
-        return productRepository.save(product);
+    public Product saveProductWithoutValidation(Product product) {
+        log.error("Hystrix circuit breaker enabled on saveProductWithoutValidation");
+        try {
+            return productRepository.save(product);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.INVALID_REQUEST, e.getCause());
+        }
     }
 
     public Page<Product> getProductByPage(Integer pageNumber, Integer pageSize) {
@@ -46,8 +51,7 @@ public class ProductService {
     }
 
     public Optional<Product> getProduct(Long productId) {
-
-        return Optional.ofNullable(productRepository.findById(productId)).orElseThrow(() -> new Http404Exception("Resource not found"));
+        return Optional.ofNullable(productRepository.findById(productId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
     }
 
     public void deleteProduct(Long productId) {
@@ -57,11 +61,11 @@ public class ProductService {
     private Product validateProductCategories(Product product) {
 
         Optional.ofNullable(product.getCategory())
-                .map(this::validateCategory).orElseThrow(() -> new Http400Exception("Category does not exists"));
+                .map(this::validateCategory).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.CATEGORY_DOES_NOT_EXISTS));
 
         Optional.ofNullable(product.getParentCategory())
                 .map(this::validateCategory)
-                .orElseThrow(() -> new Http400Exception("Category does not exists"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.PARENT_CATEGORY_DOES_NOT_EXISTS));
 
         return product;
     }
@@ -71,7 +75,7 @@ public class ProductService {
             return categoryFeignClient.getCategory(category.getId()).getBody();
         } catch (Exception e) {
             log.error("Category {} is invalid", category.getId(), e);
-            throw new Http400Exception("Invalid Category");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.INVALID_CATEGORY);
         }
     }
 }
