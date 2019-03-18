@@ -1,4 +1,4 @@
-package com.andrei.categoryapi;
+package com.andrei.category;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
