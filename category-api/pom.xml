@@ -18,6 +18,8 @@
 		<java.version>11</java.version>
 		<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
 		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+		<aspectjweaver.version>1.9.2</aspectjweaver.version>
+		<commons-io.version>2.2</commons-io.version>
 	</properties>
 
 	<dependencies>
@@ -40,6 +42,17 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectjweaver.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
 		</dependency>
 
 		<dependency>

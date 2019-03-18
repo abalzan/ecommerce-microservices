@@ -4,11 +4,12 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Slf4j
@@ -21,8 +22,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Http400Exception.class)
-    public @ResponseBody
-    RestAPIException handleBadRequestException(Http400Exception exception, WebRequest request, HttpServletResponse response) {
+    public RestAPIException handleBadRequestException(Http400Exception exception) {
 
         log.info("Received Data Store Exception {} ", exception.getLocalizedMessage());
         http400CounterException.increment();
@@ -31,13 +31,11 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(Http404Exception.class)
-    public @ResponseBody
-    RestAPIException handleResourceNotFoundException(Http404Exception exception, WebRequest request, HttpServletResponse response) {
+    public RestAPIException handleResourceNotFoundException(Http404Exception exception) {
 
         log.info("Resource not found Exception {} ", exception.getLocalizedMessage());
         http404CounterException.increment();
         return new RestAPIException(new Date(), exception.getMessage(), "Requested resource not found");
     }
-
 
 }

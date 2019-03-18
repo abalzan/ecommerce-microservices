@@ -4,22 +4,34 @@ import com.andrei.category.event.CategoryEvent;
 import com.andrei.category.exception.Http404Exception;
 import com.andrei.category.model.Category;
 import com.andrei.category.service.CategoryService;
+import com.andrei.category.service.ValidationErrorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
 public class CategoryController extends AbstractController{
-	private final CategoryService  categoryService;
 
-	public CategoryController(CategoryService categoryService) {
+	private final CategoryService  categoryService;
+	private final ValidationErrorService validationErrorService;
+
+	public CategoryController(CategoryService categoryService, ValidationErrorService validationErrorService) {
 		this.categoryService = categoryService;
+		this.validationErrorService = validationErrorService;
 	}
 
 	@PostMapping("/categories")
-	public ResponseEntity<?> createCategory(@RequestBody Category category) {
+	public ResponseEntity<?> createCategory(@Valid @RequestBody Category category, BindingResult result) {
+
+		ResponseEntity<?> responseEntity = validationErrorService.validationErrorService(result);
+
+		if (responseEntity != null) return responseEntity;
+
 		Category savedCategory = categoryService.save(category);
 
 		CategoryEvent categoryCreatedEvent = new CategoryEvent("One Category created", savedCategory);
@@ -47,8 +59,12 @@ public class CategoryController extends AbstractController{
 	}
 
 	@PutMapping("/categories/{id}")
-	public ResponseEntity<?> updateCategory(@PathVariable("id") long id, @RequestBody Category category) {
+	public ResponseEntity<?> updateCategory(@Valid @PathVariable("id") long id, @RequestBody Category category, BindingResult result) {
         categoryService.getCategory(id).orElseThrow(() -> new Http404Exception("Category not found!"));
+
+		ResponseEntity<?> responseEntity = validationErrorService.validationErrorService(result);
+
+		if (responseEntity != null) return responseEntity;
 
         categoryService.save(category);
 
