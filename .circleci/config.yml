@@ -33,7 +33,7 @@ jobs:
       - run:
           name: product-api
           command: mvn install -DskipTests
-          working_directory: product-api/src
+          working_directory: product-api
 
       - save_cache:
           paths:
