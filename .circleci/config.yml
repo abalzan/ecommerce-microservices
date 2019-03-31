@@ -20,8 +20,16 @@ jobs:
           name: product-api
           command: mvn install
           working_directory: product-api
+      - store_artifacts:
+          path: product-api/target
+
 
       - run:
           name: category-api
           command: mvn install
           working_directory: category-api
+
+      # generating code coverage
+      - run:
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
