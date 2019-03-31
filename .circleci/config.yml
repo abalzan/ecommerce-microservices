@@ -30,6 +30,8 @@ jobs:
           name: category-api
           command: mvn install
           working_directory: category-api
+      - store_artifacts:
+          path: category-api/target
 
       # generating code coverage
       - run:
