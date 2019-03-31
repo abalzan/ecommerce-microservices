@@ -2,7 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2.0
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.4
 jobs:
   build:
     docker:
@@ -20,8 +22,16 @@ jobs:
           name: product-api
           command: mvn install
           working_directory: product-api
+      - store_artifacts:
+          path: product-api/target
+
 
       - run:
           name: category-api
           command: mvn install
           working_directory: category-api
+
+      # generating code coverage
+      - run:
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)
