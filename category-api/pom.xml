@@ -11,6 +11,8 @@
 	<groupId>com.andrei</groupId>
 	<artifactId>category-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
 	<name>category-api</name>
 	<description>Demo project for Spring Boot</description>
 
