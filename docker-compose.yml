@@ -44,6 +44,7 @@ services:
       - "18100:18100"
       - "8092:8092"
     depends_on:
+      - eureka-service-discovery
       - remote-config-service
       - mysqldb
     entrypoint: /bin/sh
@@ -60,6 +61,7 @@ services:
       - "18000:18000"
       - "8091:8091"
     depends_on:
+      - eureka-service-discovery
       - remote-config-service
       - mysqldb
     entrypoint: /bin/sh
