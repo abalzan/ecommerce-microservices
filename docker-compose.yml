@@ -1,8 +1,8 @@
 version: '3'
 services:
   mysqldb:
-    image: mysql:5.7
     container_name: mysqldb
+    image: mysql:latest
     ports:
       - "3306:3306"
     environment:
@@ -10,6 +10,7 @@ services:
       MYSQL_DATABASE: ecommerce
       MYSQL_USER: ecommerce
       MYSQL_PASSWORD: ecommerce
+    restart: always
 
 #  rabbitmq:
 #    container_name: rabbitmq
@@ -26,7 +27,9 @@ services:
     build: ./remote-config-service
     ports:
       - "9000:9000"
-#    depends_on:
+      - "9001:9001"
+    depends_on:
+      - mysqldb
 #      - rabbitmq
 
   eureka-service-discovery:
@@ -36,23 +39,7 @@ services:
       - "8761:8761"
     depends_on:
       - remote-config-service
-
-  category-api:
-    container_name: category-api
-    build: ./category-api
-    ports:
-      - "18100:18100"
-      - "8092:8092"
-    depends_on:
-      - eureka-service-discovery
-      - remote-config-service
-      - mysqldb
-    entrypoint: /bin/sh
-    command: >
-      -c "
-      while ! (nc -z remote-config-service 9000); do sleep 5; echo 'Waiting for remote-config-service services to start-up...'; done;
-      java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8787,suspend=n -jar -Dspring.profiles.active=dev /app.jar
-      "
+    command: mvn clean spring-boot:run
 
   product-api:
     container_name: product-api
@@ -64,9 +51,17 @@ services:
       - eureka-service-discovery
       - remote-config-service
       - mysqldb
-    entrypoint: /bin/sh
-    command: >
-      -c "
-       while ! (nc -z remote-config-service 9000); do sleep 5; echo 'Waiting and remote-config-service services to start-up...'; done;
-       java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8787,suspend=n -jar -Dspring.profiles.active=dev /app.jar
-       "
+    command: mvn clean spring-boot:run
+
+  category-api:
+    container_name: category-api
+    build: ./category-api
+    ports:
+      - "18100:18100"
+      - "8092:8092"
+    depends_on:
+      - product-api
+      - eureka-service-discovery
+      - remote-config-service
+      - mysqldb
+    command: mvn clean spring-boot:run

@@ -6,6 +6,24 @@
 
 <a href="https://codeclimate.com/github/abalzan/ecommerce-microservices/maintainability"><img src="https://api.codeclimate.com/v1/badges/93e3fea017ac2189d186/maintainability" /></a>
 
+# Run application using docker
+
+```$ mvn clean install```
+OR
+```$ mvn package -B```
+
+Run your containers:
+
+```$ docker-compose up -d```
+
+Check all containers are up and running:
+
+```$ docker ps```
+
+For stopping our stack:
+
+```$ docker-compose stop```
+
 # Application URLs
 To see all the configured endpoints please check Swagger documentation:
 
