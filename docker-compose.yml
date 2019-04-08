@@ -10,7 +10,14 @@ services:
       MYSQL_DATABASE: ecommerce
       MYSQL_USER: ecommerce
       MYSQL_PASSWORD: ecommerce
-    restart: always
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - network_ecommerce
 
 #  rabbitmq:
 #    container_name: rabbitmq
@@ -28,18 +35,38 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    expose:
+      - "9000"
+      - "9001"
     depends_on:
       - mysqldb
 #      - rabbitmq
+    links:
+      - mysqldb
+    networks:
+      - network_ecommerce
 
   eureka-service-discovery:
-    container_name: eureka-service-discovery
     build: ./eureka-service-discovery
+    container_name: eureka-service-discovery
+#    hostname: eureka
+    restart: always
     ports:
       - "8761:8761"
-    depends_on:
-      - remote-config-service
-    command: mvn clean spring-boot:run
+    networks:
+      - network_ecommerce
+#  eureka-service-discovery:
+#    container_name: eureka-service-discovery
+#    build:
+#      context: ./eureka-service-discovery
+#    image: eureka-service-discovery
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=dev
+#      - LOGGING_LEVEL_COM_NETFLIX_DISCOVERY=DEBUG
+#    ports:
+#      - "8761:8761"
+#    networks:
+#      - network_ecommerce
 
   product-api:
     container_name: product-api
@@ -51,17 +78,38 @@ services:
       - eureka-service-discovery
       - remote-config-service
       - mysqldb
-    command: mvn clean spring-boot:run
-
-  category-api:
-    container_name: category-api
-    build: ./category-api
-    ports:
-      - "18100:18100"
-      - "8092:8092"
-    depends_on:
-      - product-api
+    links:
       - eureka-service-discovery
       - remote-config-service
       - mysqldb
-    command: mvn clean spring-boot:run
+    networks:
+      - network_ecommerce
+#    command: >
+#      /bin/sh -c "
+#        echo Waiting for rabbitmq service start...;
+#        while ! nc -z mysqldb 3306;
+#        do
+#          sleep 1;
+#        done;
+#        echo Connected!;
+#      "
+
+    restart: on-failure
+#  category-api:
+#    container_name: category-api
+#    build: ./category-api
+#    ports:
+#      - "18100:18100"
+#      - "8092:8092"
+#    depends_on:
+#      - product-api
+#      - eureka-service-discovery
+#      - remote-config-service
+#      - mysqldb
+#    command: mvn clean spring-boot:run
+#    networks:
+#      - network_ecommerce
+
+networks:
+  network_ecommerce:
+    driver: bridge
