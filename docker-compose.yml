@@ -51,8 +51,8 @@ services:
   eureka-service-discovery:
     build: ./eureka-service-discovery
     container_name: eureka-service-discovery
-#    hostname: eureka
-    restart: always
+    hostname: localhost
+    restart: on-failure
     ports:
       - "8761:8761"
     networks:
@@ -86,16 +86,11 @@ services:
       - mysqldb
     networks:
       - network_ecommerce
-#    command: >
-#      /bin/sh -c "
-#        echo Waiting for rabbitmq service start...;
-#        while ! nc -z mysqldb 3306;
-#        do
-#          sleep 1;
-#        done;
-#        echo Connected!;
-#      "
-
+    command: >
+      -c "
+      while ! (nc -z remote-config-service 9000); do sleep 5; echo 'Waiting for remote-config-service to start-up...'; done;
+      java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=9001,suspend=n -jar -Dspring.profiles.active=dev /product-api-0.0.1-SNAPSHOT.jar
+      "
     restart: on-failure
 #  category-api:
 #    container_name: category-api
