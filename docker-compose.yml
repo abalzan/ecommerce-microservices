@@ -12,86 +12,35 @@ services:
       MYSQL_DATABASE: ecommerce
       MYSQL_USER: ecommerce
       MYSQL_PASSWORD: ecommerce
-    restart: on-failure
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3306"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    networks:
-      - network_ecommerce
-
-#  rabbitmq:
-#    container_name: rabbitmq
-#    image: 'rabbitmq:management'
-#    environment:
-#      - RABBITMQ_DEFAULT_USER=guest
-#      - RABBITMQ_DEFAULT_PASS=guest
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
 
   remote-config-service:
     container_name: remote-config-service
     build: ./remote-config-service
     ports:
-      - "9000:9000"
-      - "9001:9001"
-    expose:
-      - "9000"
-      - "9001"
+      - 9000:9000
+      - 9001:9001
     depends_on:
       - mysqldb
-#      - rabbitmq
-    links:
-      - mysqldb
-    networks:
-      - network_ecommerce
 
   eureka-service-discovery:
     build: ./eureka-service-discovery
     container_name: eureka-service-discovery
     hostname: localhost
-    restart: on-failure
     ports:
-      - "8761:8761"
-    networks:
-      - network_ecommerce
-#  eureka-service-discovery:
-#    container_name: eureka-service-discovery
-#    build:
-#      context: ./eureka-service-discovery
-#    image: eureka-service-discovery
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=dev
-#      - LOGGING_LEVEL_COM_NETFLIX_DISCOVERY=DEBUG
-#    ports:
-#      - "8761:8761"
-#    networks:
-#      - network_ecommerce
+      - 8761:8761
 
   product-api:
     container_name: product-api
     build: ./product-api
     ports:
-      - "18000:18000"
-      - "8091:8091"
+      - 18000:18000
+      - 8091:8091
     depends_on:
       - eureka-service-discovery
       - remote-config-service
       - mysqldb
-    links:
-      - eureka-service-discovery
-      - remote-config-service
-      - mysqldb
-    networks:
-      - network_ecommerce
-    command: >
-      -c "
-      while ! (nc -z remote-config-service 9000); do sleep 5; echo 'Waiting for remote-config-service to start-up...'; done;
-      java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=9001,suspend=n -jar -Dspring.profiles.active=dev /product-api-0.0.1-SNAPSHOT.jar
-      "
-    restart: on-failure
+#    restart: on-failure
+
 #  category-api:
 #    container_name: category-api
 #    build: ./category-api
@@ -107,6 +56,6 @@ services:
 #    networks:
 #      - network_ecommerce
 
-networks:
-  network_ecommerce:
-    driver: bridge
+#networks:
+#  network_ecommerce:
+#    driver: bridge
