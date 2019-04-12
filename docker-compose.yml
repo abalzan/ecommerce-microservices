@@ -1,0 +1,68 @@
+#WIP, check link bellow
+#https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y/41854997#41854997
+version: '3'
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: ecommerce
+      MYSQL_USER: ecommerce
+      MYSQL_PASSWORD: ecommerce
+    hostname: mysqldb
+    networks:
+      - ecommercenet
+
+  remote-config-service:
+    container_name: remote-config-service
+    build: ./remote-config-service
+    hostname: remote-config-service
+    ports:
+      - 9000:9000
+      - 9001:9001
+    depends_on:
+      - mysqldb
+    networks:
+      - ecommercenet
+
+  eureka-service-discovery:
+    build: ./eureka-service-discovery
+    container_name: eureka-service-discovery
+    hostname: eureka-service-discovery
+    ports:
+      - 8761:8761
+    networks:
+      - ecommercenet
+
+  product-api:
+    container_name: product-api
+    build: ./product-api
+    hostname: product-api
+    ports:
+      - 18000:18000
+      - 8091:8091
+    depends_on:
+      - eureka-service-discovery
+      - remote-config-service
+      - mysqldb
+    restart: always
+    networks:
+      - ecommercenet
+
+  category-api:
+    container_name: category-api
+    build: ./category-api
+    hostname: category-api
+    ports:
+      - "18100:18100"
+      - "8092:8092"
+    depends_on:
+      - product-api
+    networks:
+      - ecommercenet
+
+networks:
+  ecommercenet:

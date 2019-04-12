@@ -1,10 +1,5 @@
 server:
   port: 18100
 spring:
-  profiles:
-    active: dev
   application:
     name: category-api
-  cloud:
-    config:
-      uri: http://localhost:9000
