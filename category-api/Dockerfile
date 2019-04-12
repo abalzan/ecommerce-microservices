@@ -1,6 +1,6 @@
 FROM openjdk:11.0.2-jre-stretch
 
-ENV PROFILE="dev"
+ENV PROFILE="docker"
 
 RUN ["mkdir", "/root/category-api"]
 COPY target/category-api-0.0.1-SNAPSHOT.jar /root/category-api/

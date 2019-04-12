@@ -12,26 +12,35 @@ services:
       MYSQL_DATABASE: ecommerce
       MYSQL_USER: ecommerce
       MYSQL_PASSWORD: ecommerce
+    hostname: mysqldb
+    networks:
+      - ecommercenet
 
   remote-config-service:
     container_name: remote-config-service
     build: ./remote-config-service
+    hostname: remote-config-service
     ports:
       - 9000:9000
       - 9001:9001
     depends_on:
       - mysqldb
+    networks:
+      - ecommercenet
 
   eureka-service-discovery:
     build: ./eureka-service-discovery
     container_name: eureka-service-discovery
-    hostname: localhost
+    hostname: eureka-service-discovery
     ports:
       - 8761:8761
+    networks:
+      - ecommercenet
 
   product-api:
     container_name: product-api
     build: ./product-api
+    hostname: product-api
     ports:
       - 18000:18000
       - 8091:8091
@@ -39,23 +48,21 @@ services:
       - eureka-service-discovery
       - remote-config-service
       - mysqldb
-#    restart: on-failure
+    restart: always
+    networks:
+      - ecommercenet
 
-#  category-api:
-#    container_name: category-api
-#    build: ./category-api
-#    ports:
-#      - "18100:18100"
-#      - "8092:8092"
-#    depends_on:
-#      - product-api
-#      - eureka-service-discovery
-#      - remote-config-service
-#      - mysqldb
-#    command: mvn clean spring-boot:run
-#    networks:
-#      - network_ecommerce
+  category-api:
+    container_name: category-api
+    build: ./category-api
+    hostname: category-api
+    ports:
+      - "18100:18100"
+      - "8092:8092"
+    depends_on:
+      - product-api
+    networks:
+      - ecommercenet
 
-#networks:
-#  network_ecommerce:
-#    driver: bridge
+networks:
+  ecommercenet:

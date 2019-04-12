@@ -1,6 +1,6 @@
 FROM openjdk:11.0.2-jre-stretch
 
-ENV PROFILE="dev"
+ENV PROFILE="docker"
 
 ADD ["target/product-api-0.0.1-SNAPSHOT.jar", "product-api-0.0.1-SNAPSHOT.jar"]
 EXPOSE 18100

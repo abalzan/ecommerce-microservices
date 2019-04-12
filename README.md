@@ -14,7 +14,9 @@ OR
 
 Run your containers:
 
-```$ docker-compose up -d```
+```$ docker-compose up```
+OR
+```$ docker-compose up --build  --force-recreate```
 
 Check all containers are up and running:
 
