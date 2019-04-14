@@ -33,7 +33,7 @@ public class CategoryService {
 
     public Optional<Category> getCategory(Long categoryId) {
 
-        return Optional.ofNullable(categoryRepository.findById(categoryId)).orElseThrow(() -> new Http404Exception("Resource not found"));
+        return Optional.of(categoryRepository.findById(categoryId)).orElseThrow(() -> new Http404Exception("Resource not found"));
     }
 
     public void deleteCategory(Long categoryId) {

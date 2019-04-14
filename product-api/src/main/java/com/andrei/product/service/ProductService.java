@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     public Optional<Product> getProduct(Long productId) {
-        return Optional.ofNullable(productRepository.findById(productId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
+        return Optional.of(productRepository.findById(productId)).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
     }
 
     public void deleteProduct(Long productId) {
