@@ -7,7 +7,7 @@ spring:
       server:
         git:
           uri: https://github.com/abalzan/ecommerce-microservice-config
-          searchPaths: product-api, category-api, user-api
+          searchPaths: product-api, category-api, address-api, user-api
 
 management:
   server:
