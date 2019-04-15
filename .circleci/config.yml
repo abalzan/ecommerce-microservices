@@ -25,13 +25,19 @@ jobs:
       - store_artifacts:
           path: product-api/target
 
-
       - run:
           name: category-api
           command: mvn install
           working_directory: category-api
       - store_artifacts:
           path: category-api/target
+
+      - run:
+          name: address-api
+          command: mvn install
+          working_directory: address-api
+      - store_artifacts:
+          path: address-api/target
 
       # generating code coverage
       - run:
