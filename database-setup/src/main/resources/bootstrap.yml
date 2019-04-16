@@ -1,0 +1,8 @@
+server:
+  port: 16600
+spring:
+  application:
+    name: database-setup
+  cloud:
+    config:
+      uri: http://localhost:9000
