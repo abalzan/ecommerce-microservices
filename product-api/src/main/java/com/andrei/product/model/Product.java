@@ -17,6 +17,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private Long id;
 
 	@NotNull(message = "product code should not be null")
@@ -35,24 +36,24 @@ public class Product {
 	@Column(name = "LONG_DESCRIPTION")
 	private String longDescription;
 
-	@Column(name = "CANDISPLAY")
+	@Column(name = "CAN_DISPLAY")
 	private boolean canDisplay;
 
-	@Column(name = "ISDELETED")
+	@Column(name = "IS_DELETED")
 	private boolean isDeleted;
 
-	@Column(name = "ISAUTOMOTIVE")
+	@Column(name = "IS_AUTOMOTIVE")
 	private boolean isAutomotive;
 
-	@Column(name = "ISINTERNATIONAL")
+	@Column(name = "IS_INTERNATIONAL")
 	private boolean isInternational;
 
 	@OneToOne
-	@JoinColumn(name = "parent_category_id")
+	@JoinColumn(name = "PARENT_CATEGORY_ID")
 	private Category parentCategory;
 
 	@OneToOne
-	@JoinColumn(name = "category_id")
+	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
 	
 }
