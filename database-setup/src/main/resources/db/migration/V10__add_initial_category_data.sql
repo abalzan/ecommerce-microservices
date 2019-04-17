@@ -1,19 +1,19 @@
-insert into category
-(id, category_description, category_name)
-values
+INSERT INTO CATEGORY
+(ID, CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES
 (1, 'Food', 'Food');
 
-insert into category
-(id, category_description, category_name)
-values
+INSERT INTO CATEGORY
+(ID, CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES
 (2, 'Oranges', 'Oranges');
 
-insert into category
-(id, category_description, category_name)
-values
+INSERT INTO CATEGORY
+(ID, CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES
 (3, 'Electronics', 'Electronics');
 
-insert into category
-(id, category_description, category_name)
-values
+INSERT INTO CATEGORY
+(ID, CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES
 (4, 'Televison', 'Televison');

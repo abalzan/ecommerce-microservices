@@ -1,20 +1,20 @@
 use ecommerce;
 
-CREATE TABLE `product` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `candisplay` bit(1) NOT NULL,
-  `isautomotive` bit(1) NOT NULL,
-  `isdeleted` bit(1) NOT NULL,
-  `isinternational` bit(1) NOT NULL,
-  `long_description` varchar(255) NOT NULL,
-  `pcode` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `short_description` varchar(255) NOT NULL,
-  `category_id` bigint(20) DEFAULT NULL,
-  `parent_category_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_category` (`category_id`),
-  KEY `fk_parent_category` (`parent_category_id`),
-  CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `fk_parent_category` FOREIGN KEY (`parent_category_id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `PRODUCT` (
+  `ID` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `CAN_DISPLAY` BIT(1) NOT NULL,
+  `IS_AUTOMOTIVE` BIT(1) NOT NULL,
+  `IS_DELETED` BIT(1) NOT NULL,
+  `IS_INTERNATIONAL` BIT(1) NOT NULL,
+  `LONG_DESCRIPTION` VARCHAR(255) NOT NULL,
+  `PCODE` VARCHAR(255) NOT NULL,
+  `NAME` VARCHAR(255) NOT NULL,
+  `SHORT_DESCRIPTION` VARCHAR(255) NOT NULL,
+  `CATEGORY_ID` BIGINT(20) DEFAULT NULL,
+  `PARENT_CATEGORY_ID` BIGINT(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_CATEGORY` (`CATEGORY_ID`),
+  KEY `FK_PARENT_CATEGORY` (`PARENT_CATEGORY_ID`),
+  CONSTRAINT `FK_CATEGORY` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `CATEGORY` (`ID`),
+  CONSTRAINT `FK_PARENT_CATEGORY` FOREIGN KEY (`PARENT_CATEGORY_ID`) REFERENCES `CATEGORY` (`ID`)
+) ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=LATIN1;

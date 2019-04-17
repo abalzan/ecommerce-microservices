@@ -1,8 +1,9 @@
 use ecommerce;
 
-CREATE TABLE `user` (
+CREATE TABLE `USER` (
 `ID` bigint(20) NOT NULL AUTO_INCREMENT,
 `USER_NAME` varchar(100) NOT NULL,
+`ACCOUNT_NUMBER` VARCHAR(255),
 `FIRST_NAME` varchar(100) NOT NULL,
 `LAST_NAME` varchar(100) NOT NULL,
 `SEX` varchar(1) NOT NULL,
