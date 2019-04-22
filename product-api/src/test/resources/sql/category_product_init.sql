@@ -1,22 +1,17 @@
-INSERT INTO category
-(category_description, category_name)
+INSERT INTO CATEGORY(CATEGORY_DESCRIPTION, CATEGORY_NAME)
 VALUES ('Food', 'Food');
 
-INSERT INTO category
-(id, category_description, category_name)
-VALUES (2, 'Oranges', 'Oranges');
+INSERT INTO CATEGORY(CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES ('Oranges', 'Oranges');
 
-INSERT INTO category
-(id, category_description, category_name)
-VALUES (3, 'Electronics', 'Electronics');
+INSERT INTO CATEGORY(CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES ('Electronics', 'Electronics');
 
-INSERT INTO category
-(id, category_description, category_name)
-VALUES (4, 'Televison', 'Televison');
+INSERT INTO CATEGORY( CATEGORY_DESCRIPTION, CATEGORY_NAME)
+VALUES ('Televison', 'Televison');
 
-INSERT INTO product(candisplay, isautomotive, isdeleted, isinternational, long_description, pcode, name, short_description, category_id, parent_category_id)
+INSERT INTO PRODUCT(CAN_DISPLAY, IS_AUTOMOTIVE, IS_DELETED, IS_INTERNATIONAL, LONG_DESCRIPTION, PCODE, NAME, SHORT_DESCRIPTION, CATEGORY_ID, PARENT_CATEGORY_ID)
 VALUES (1, 0, 0, 1, '70 inch Samsung Television with Retina Display', 'P2345872', 'Samsung 70 inch TV', '', 4, 3);
 
-INSERT INTO product
-(candisplay, isautomotive, isdeleted, isinternational, long_description, pcode, name, short_description, category_id, parent_category_id)
+INSERT INTO PRODUCT(CAN_DISPLAY, IS_AUTOMOTIVE, IS_DELETED, IS_INTERNATIONAL, LONG_DESCRIPTION, PCODE, NAME, SHORT_DESCRIPTION, CATEGORY_ID, PARENT_CATEGORY_ID)
 VALUES (1, 0, 0, 1, '60 inch Samsung Television with Retina Display', 'P2345873', 'Samsung 60 inch TV', '', 4, 3);
