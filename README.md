@@ -34,17 +34,21 @@ In this project I am using flyway to create the database, for this I just create
 # Application URLs
 To see all the configured endpoints please check Swagger documentation:
 
-product-api 
-```http://localhost:18000/products```
-
-categories-api 
-```http://localhost:18100/categories```
+| Application | URL |
+| --- | --- |
+| product-api | ```http://localhost:18000/products``` |
+| category-api  | ```http://localhost:18100/categories``` |
+| user-api  | ```http://localhost:18200/users``` |
+| address-api  | ```http://localhost:18300/addresses``` |
 
 ### Swagger Urls
 
-product-api ```http://localhost:18000/swagger-ui.html```
-
-category-api ```http://localhost:18100/swagger-ui.html```
+| Application | URL |
+| --- | --- |
+| product-api | ```http://localhost:18000/swagger-ui.html``` |
+| category-api  | ```http://localhost:18100/swagger-ui.html``` |
+| user-api  | ```http://localhost:18200/swagger-ui.html``` |
+| address-api  | ```http://localhost:18300/swagger-ui.html``` |
 
 user-api ```http://localhost:18200/swagger-ui.html```
 
@@ -67,10 +71,9 @@ http://localhost:9000/category-api/dev
 ### Actuator
 Each project has actuator configured, follow the Urls:
 
-product-api ```http://localhost:8091/actuator```
-
-category-api ```http://localhost:8092/actuator```
-
-user-api ```http://localhost:8093/actuator```
-
-address-api ```http://localhost:8094/actuator```
+| Application | URL |
+| --- | --- |
+| product-api | ```http://localhost:8091/actuator``` |
+| category-api  | ```http://localhost:8092/actuator``` |
+| user-api  | ```http://localhost:8093/actuator``` |
+| address-api  | ```http://localhost:8094/actuator``` |
