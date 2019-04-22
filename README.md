@@ -26,6 +26,11 @@ For stopping our stack:
 
 ```$ docker-compose stop```
 
+# Database Setup
+In this project I am using flyway to create the database, for this I just create a separated project
+ responsible just to create the tables and some initial data.
+```http://localhost:16600```
+
 # Application URLs
 To see all the configured endpoints please check Swagger documentation:
 
@@ -36,7 +41,6 @@ To see all the configured endpoints please check Swagger documentation:
 | user-api  | ```http://localhost:18200/users``` |
 | address-api  | ```http://localhost:18300/addresses``` |
 
-
 ### Swagger Urls
 
 | Application | URL |
@@ -45,6 +49,11 @@ To see all the configured endpoints please check Swagger documentation:
 | category-api  | ```http://localhost:18100/swagger-ui.html``` |
 | user-api  | ```http://localhost:18200/swagger-ui.html``` |
 | address-api  | ```http://localhost:18300/swagger-ui.html``` |
+
+user-api ```http://localhost:18200/swagger-ui.html```
+
+address-api ```http://localhost:18300/swagger-ui.html```
+
 
 ### Eureka
 http://localhost:8761/

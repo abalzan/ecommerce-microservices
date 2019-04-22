@@ -39,6 +39,13 @@ jobs:
       - store_artifacts:
           path: address-api/target
 
+      - run:
+          name: user-api
+          command: mvn install
+          working_directory: user-api
+      - store_artifacts:
+          path: user-api/target
+
       # generating code coverage
       - run:
           name: Send to CodeCov

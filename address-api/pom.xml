@@ -16,7 +16,6 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<flyway-core.version>5.2.4</flyway-core.version>
 		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
 		<aspectjweaver.version>1.9.2</aspectjweaver.version>
 	</properties>
@@ -105,13 +104,6 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectjweaver.version}</version>
 		</dependency>
-
-
-		<!--<dependency>-->
-			<!--<groupId>org.flywaydb</groupId>-->
-			<!--<artifactId>flyway-core</artifactId>-->
-			<!--<version>${flyway-core.version}</version>-->
-		<!--</dependency>-->
 
 		<dependency>
 			<groupId>com.h2database</groupId>
