@@ -1,20 +1,20 @@
 package com.andrei.address.event;
 
-import com.andrei.address.model.User;
+import com.andrei.address.model.Address;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
 @ToString
-public class UserEvent extends ApplicationEvent {
+public class AddressEvent extends ApplicationEvent {
 
     private final String eventType;
-    private final User user;
+    private final Address address;
 
-    public UserEvent(Object source, String eventType, User user) {
+    public AddressEvent(Object source, String eventType, Address address) {
         super(source);
         this.eventType = eventType;
-        this.user = user;
+        this.address = address;
     }
 }
