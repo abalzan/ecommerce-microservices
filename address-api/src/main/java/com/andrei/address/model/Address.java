@@ -39,8 +39,4 @@ public class Address {
     @Column(name = "ZIP_CODE", nullable = false)
     private String zipCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ACCOUNT_ID", nullable = false)
-    private Account account;
-
 }

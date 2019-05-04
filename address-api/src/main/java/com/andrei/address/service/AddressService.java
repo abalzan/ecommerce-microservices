@@ -33,11 +33,11 @@ public class AddressService {
         return addressRepository.findAll(pageable);
     }
 
-    public Address getAddress(Long addressId) {
+    public Address getAddress(long addressId) {
         return addressRepository.findById(addressId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
     }
 
-    public void deleteAddress(Long addressId) {
+    public void deleteAddress(long addressId) {
         addressRepository.deleteById(addressId);
     }
 
