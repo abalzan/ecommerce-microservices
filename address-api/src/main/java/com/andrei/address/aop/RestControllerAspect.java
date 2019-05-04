@@ -19,44 +19,44 @@ public class RestControllerAspect {
     private Counter counterControllerCalls = Metrics.counter("com.andrei.address.controller.execution");
     private Counter counterControllerException = Metrics.counter("com.andrei.address.controller.exception");
 
-    @Pointcut("execution(public * com.andrei.address.controller.UserController.*(..))")
-    private void allMethodsUserControllerClass() {
+    @Pointcut("execution(public * com.andrei.address.controller.AddressController.*(..))")
+    private void allMethodsAddressControllerClass() {
     }
 
-    @Before("allMethodsUserControllerClass()")
+    @Before("allMethodsAddressControllerClass()")
     public void generallAllMethodsAspect(JoinPoint joinPoint) {
         log.info("Calling method(s) {} with parameters {}", joinPoint.getSignature(), joinPoint.getArgs());
     }
 
-    @Before("allMethodsUserControllerClass()")
-    public void getCalledUserOperation() {
-        log.info("incrementing calls to userController");
+    @Before("allMethodsAddressControllerClass()")
+    public void getCalledAddressOperation() {
+        log.info("incrementing calls to addressController");
         counterControllerCalls.increment();
     }
 
-    @AfterReturning(value = "execution(public * com.andrei.address.controller.UserController.createUser(..))")
-    public void getCalledOnUserSave() {
+    @AfterReturning(value = "execution(public * com.andrei.address.controller.AddressController.createAddress(..))")
+    public void getCalledOnAddressSave() {
         log.info("Incrementing statistics create address");
         counterControllerCreateSuccessful.increment();
     }
 
-    @AfterReturning(value = "execution(public * com.andrei.address.controller.UserController.updateUser(..))")
-    public void getCalledOnUserUpdate() {
+    @AfterReturning(value = "execution(public * com.andrei.address.controller.AddressController.updateAddress(..))")
+    public void getCalledOnAddressUpdate() {
         log.info("Incrementing statistics update address");
         counterControllerUpdateSuccessful.increment();
     }
 
-    @AfterReturning(value = "execution(public * com.andrei.address.controller.UserController.deleteUser(..))")
-    public void getCalledOnUserDelete() {
+    @AfterReturning(value = "execution(public * com.andrei.address.controller.AddressController.deleteAddress(..))")
+    public void getCalledOnAddressDelete() {
         log.info("Incrementing statistics delete address");
         counterControllerDeleteSuccessful.increment();
     }
 
-    @AfterThrowing(value = "allMethodsUserControllerClass()", throwing = "userException")
-    public void getCalledOnUserException(JoinPoint joinPoint, Throwable userException) {
+    @AfterThrowing(value = "allMethodsAddressControllerClass()", throwing = "addressException")
+    public void getCalledOnAddressException(JoinPoint joinPoint, Throwable addressException) {
         log.info("Incrementing statistics exception for address");
         counterControllerException.increment();
 
-        log.error("Method {}, with arguments {} Throws the exception", joinPoint.getSignature(), joinPoint.getArgs(), userException);
+        log.error("Method {}, with arguments {} Throws the exception", joinPoint.getSignature(), joinPoint.getArgs(), addressException);
     }
 }
