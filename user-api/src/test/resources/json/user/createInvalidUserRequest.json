@@ -1,9 +1,20 @@
 {
-  "firstName":"",
-  "lastName":"last name",
-  "memberType":"G",
-  "registrationDate":"2019-01-01",
-  "sex":"M",
-  "username":"fake",
-  "accountNumber":"123456"
+  "username": "",
+  "firstName": "John",
+  "lastName": "Doe",
+  "gender": "M",
+  "memberType": "G",
+  "registrationDate": "2019-01-01",
+  "account": {
+    "accountNumber": "1001",
+    "accountName": "Supper Account"
+  },
+  "address": {
+    "id": 1,
+    "houseNumber": "123",
+    "streetAddress": "Main Street",
+    "city": "Dublin",
+    "state": "DUBLIN",
+    "zipCode": "E1 A1B2"
+  }
 }

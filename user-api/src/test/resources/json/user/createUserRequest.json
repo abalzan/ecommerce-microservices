@@ -1,9 +1,20 @@
 {
-  "firstName":"First Name",
-  "lastName":"last name",
-  "memberType":"G",
-  "registrationDate":"1546300801000",
-  "sex":"M",
-  "username":"fake",
-  "accountNumber":"123456"
+  "username": "fakeuser",
+  "firstName": "Fake",
+  "lastName": "user",
+  "gender": "M",
+  "memberType": "G",
+  "registrationDate": "2019-01-02",
+  "account": {
+    "accountNumber": "1001",
+    "accountName": "Fake Account"
+  },
+  "address": {
+    "id": 1,
+    "houseNumber": "123",
+    "streetAddress": "Main Street",
+    "city": "Dublin",
+    "state": "DUBLIN",
+    "zipCode": "E1 A1B2"
+  }
 }

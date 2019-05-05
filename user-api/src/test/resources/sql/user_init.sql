@@ -1,7 +1,23 @@
-INSERT INTO USER
-(first_name, last_name, member_type, registration_date, sex, user_name, account_number)
-VALUES('John', 'Doe', 'G', '2019-01-01','M','john', '10001');
+INSERT INTO ADDRESS
+(ID, CITY, HOUSE_NUMBER,STATE, STREET_ADDRESS,ZIP_CODE)
+VALUES ('1', 'Dublin', '123', 'DUBLIN', 'Main Street', 'E1 A1B2');
 
 INSERT INTO USER
-(first_name, last_name, member_type, registration_date, sex, user_name, account_number)
-VALUES('Johna', 'Does', 'G', '2016-01-01','F','johna', '90001');
+(USER_NAME, FIRST_NAME, LAST_NAME, GENDER, MEMBER_TYPE, REGISTRATION_DATE, ADDRESS_ID, ACCOUNT_NUMBER)
+VALUES('john', 'John', 'Doe', 'M', 'G', '2019-01-01', 1, null);
+
+INSERT INTO USER
+(USER_NAME, FIRST_NAME, LAST_NAME, GENDER, MEMBER_TYPE, REGISTRATION_DATE, ADDRESS_ID, ACCOUNT_NUMBER)
+VALUES('johna', 'Johna', 'Does', 'F', 'G', '2016-01-01', 1, null);
+
+INSERT INTO ACCOUNT
+(USER_PROFILE_ID, ACCOUNT_NUMBER, ACCOUNT_NAME)
+VALUES(1, '1001', 'Supper Account');
+
+INSERT INTO ACCOUNT
+(USER_PROFILE_ID, ACCOUNT_NUMBER, ACCOUNT_NAME)
+VALUES(2, '90001', 'Diamond Account');
+
+UPDATE USER SET ACCOUNT_NUMBER='1001' WHERE `ID`='1';
+
+UPDATE USER SET ACCOUNT_NUMBER='90001' WHERE `ID`='2';
