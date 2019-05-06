@@ -2,6 +2,7 @@ package com.andrei.user.service;
 
 import com.andrei.user.exception.ExceptionConstants;
 import com.andrei.user.model.User;
+import com.andrei.user.repository.AccountRepository;
 import com.andrei.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,12 +18,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, AccountRepository accountRepository) {
         this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
     }
 
     public User save(User user) {
+        accountRepository.save(user.getAccount());
         return userRepository.save(user);
     }
 
