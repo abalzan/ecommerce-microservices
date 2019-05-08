@@ -13,6 +13,6 @@ public class CategoryEventListener {
     public void onApplicationEvent(CategoryEvent categoryEvent){
 
         log.info("Reveived Category Event:{} ", categoryEvent.getEventType());
-        log.info("Receive Category From Category Event: {} ", categoryEvent.getCategory().toString());
+        log.info("Receive Category From Category Event: {} ", categoryEvent.getCategoryDTO().toString());
     }
 }
