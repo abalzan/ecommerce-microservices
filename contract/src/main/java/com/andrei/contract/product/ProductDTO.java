@@ -31,7 +31,7 @@ import javax.validation.constraints.NotBlank;
 public class ProductDTO {
 
     @JsonProperty("productId")
-    private Long id;
+    private long id;
 
     @NotBlank(message = "product code should not be null")
     @JsonProperty("productCode")

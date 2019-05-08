@@ -23,7 +23,7 @@ import javax.validation.constraints.NotBlank;
 public class CategoryDTO {
 
     @JsonProperty("categoryId")
-    private Long id;
+    private long id;
 
     @NotBlank(message = "Category description should not be null")
     @JsonProperty("categoryName")
