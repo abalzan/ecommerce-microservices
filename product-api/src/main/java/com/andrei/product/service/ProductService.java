@@ -54,9 +54,9 @@ public class ProductService {
     }
 
 
-    // fault tolerance
     @HystrixCommand(fallbackMethod = "saveProductWithoutValidation")
     public ProductDTO save(ProductDTO productDTO) {
+
         validateProductCategories(productDTO);
 
         final Product savedProduct = productRepository.save(Objects.requireNonNull(dtoToEntityConverter.convert(productDTO)));

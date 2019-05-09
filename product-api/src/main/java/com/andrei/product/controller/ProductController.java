@@ -1,7 +1,6 @@
 package com.andrei.product.controller;
 
 import com.andrei.contract.product.ProductDTO;
-import com.andrei.product.converter.ProductEntityToDTOConverter;
 import com.andrei.product.event.ProductEvent;
 import com.andrei.product.service.ProductService;
 import com.andrei.product.service.ValidationErrorService;
@@ -18,12 +17,10 @@ import javax.validation.Valid;
 public class ProductController extends AbstractController{
 
 	private final ProductService  productService;
-	private final ProductEntityToDTOConverter entityToDTOConverter;
 	private final ValidationErrorService validationErrorService;
 
-	public ProductController(ProductService productService, ProductEntityToDTOConverter entityToDTOConverter, ValidationErrorService validationErrorService) {
+    public ProductController(ProductService productService, ValidationErrorService validationErrorService) {
 		this.productService = productService;
-		this.entityToDTOConverter = entityToDTOConverter;
 		this.validationErrorService = validationErrorService;
 	}
 
@@ -54,8 +51,7 @@ public class ProductController extends AbstractController{
 	}
 
 	@GetMapping("/products")
-	public @ResponseBody
-	Page<ProductDTO> getProductsByPage(
+    public Page<ProductDTO> getProductsByPage(
 			@RequestParam(value="pagenumber", defaultValue=DEFAULT_PAGE_NUMBER) Integer pageNumber,
 			@RequestParam(value="pagesize", defaultValue=DEFAULT_PAGE_SIZE) Integer pageSize) {
 
@@ -63,13 +59,12 @@ public class ProductController extends AbstractController{
 	}
 
 	@PutMapping("/products/{id}")
-	public ResponseEntity<?> updateProduct(@Valid @PathVariable("id") long id, @RequestBody ProductDTO productDTO, BindingResult result) {
+    public ResponseEntity<?> updateProduct(@PathVariable("id") long id, @RequestBody ProductDTO productDTO, BindingResult result) {
+
+        productService.getProduct(id);
 
 		ResponseEntity<?> responseEntity = validationErrorService.validationErrorService(result);
-
 		if (responseEntity != null) return responseEntity;
-
-		productService.getProduct(id);
 
 		productService.save(productDTO);
 
