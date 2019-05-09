@@ -13,6 +13,6 @@ public class ProductEventListener {
     public void onApplicationEvent(ProductEvent productEvent){
 
         log.info("Reveived Product Event:{} ", productEvent.getEventType());
-        log.info("Receive Product From Product Event: {} ", productEvent.getProduct().toString());
+        log.info("Receive Product From Product Event: {} ", productEvent.getProductDTO().toString());
     }
 }

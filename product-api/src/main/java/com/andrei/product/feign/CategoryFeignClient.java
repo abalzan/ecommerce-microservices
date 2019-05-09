@@ -1,6 +1,6 @@
 package com.andrei.product.feign;
 
-import com.andrei.product.model.Category;
+import com.andrei.contract.category.CategoryDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CategoryFeignClient {
 
     @GetMapping("/categories/{id}")
-    ResponseEntity<Category> getCategory(@PathVariable("id") long id) ;
+    ResponseEntity<CategoryDTO> getCategory(@PathVariable("id") long id);
 }

@@ -1,19 +1,19 @@
 {
   "content":[
     {
-      "id":1,
+      "productId": 1,
       "productCode":"P2345872",
       "productName":"Samsung 70 inch TV",
       "shortDescription":"",
       "longDescription":"70 inch Samsung Television with Retina Display",
       "canDisplay":true,
       "parentCategory":{
-        "id":3,
+        "categoryId": 3,
         "categoryName":"Electronics",
         "categoryDescription":"Electronics"
       },
       "category":{
-        "id":4,
+        "categoryId": 4,
         "categoryName":"Televison",
         "categoryDescription":"Televison"
       },
@@ -22,19 +22,19 @@
       "international":true
     },
     {
-      "id":2,
+      "productId": 2,
       "productCode":"P2345873",
       "productName":"Samsung 60 inch TV",
       "shortDescription":"",
       "longDescription":"60 inch Samsung Television with Retina Display",
       "canDisplay":true,
       "parentCategory":{
-        "id":3,
+        "categoryId": 3,
         "categoryName":"Electronics",
         "categoryDescription":"Electronics"
       },
       "category":{
-        "id":4,
+        "categoryId": 4,
         "categoryName":"Televison",
         "categoryDescription":"Televison"
       },

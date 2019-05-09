@@ -91,7 +91,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
         assertResponseStatusIsOk();
 
         Optional<Product> productOptional = repository.findById(1L);
-        assertTrue(Optional.ofNullable(productOptional).isPresent());
+        assertTrue(productOptional.isPresent());
 
         Product product = productOptional.get();
         assertEquals("UPDATECODE", product.getProductCode());

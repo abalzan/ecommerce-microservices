@@ -17,9 +17,9 @@ import javax.validation.constraints.NotBlank;
         "shortDescription",
         "longDescription",
         "canDisplay",
-        "isDeleted",
-        "isAutomotive",
-        "isInternational",
+        "deleted",
+        "automotive",
+        "international",
         "parentCategory",
         "category"
 })
@@ -52,13 +52,13 @@ public class ProductDTO {
     @JsonProperty("canDisplay")
     private boolean canDisplay;
 
-    @JsonProperty("isDeleted")
+    @JsonProperty("deleted")
     private boolean isDeleted;
 
-    @JsonProperty("isAutomotive")
+    @JsonProperty("automotive")
     private boolean isAutomotive;
 
-    @JsonProperty("isInternational")
+    @JsonProperty("international")
     private boolean isInternational;
 
     @JsonProperty("parentCategory")
