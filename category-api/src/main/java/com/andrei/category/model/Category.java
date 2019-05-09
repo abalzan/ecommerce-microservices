@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Builder
@@ -19,11 +19,11 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@NotNull(message = "Category name should not be null")
+    @NotBlank(message = "Category name should not be null")
 	@Column(name = "CATEGORY_NAME")
 	private String categoryName;
 
-	@NotNull(message = "Category description should not be null")
+    @NotBlank(message = "Category description should not be null")
 	@Column(name = "CATEGORY_DESCRIPTION")
 	private String categoryDescription;
 

@@ -1,8 +1,6 @@
 package com.andrei.category.controller;
 
-import com.andrei.category.converter.CategoryEntityToDTOConverter;
 import com.andrei.category.event.CategoryEvent;
-import com.andrei.category.model.Category;
 import com.andrei.category.service.CategoryService;
 import com.andrei.category.service.ValidationErrorService;
 import com.andrei.contract.category.CategoryDTO;
@@ -13,19 +11,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Slf4j
 @RestController
 public class CategoryController extends AbstractController{
 
 	private final CategoryService  categoryService;
-	private final CategoryEntityToDTOConverter entityToDTOConverter;
 	private final ValidationErrorService validationErrorService;
 
-	public CategoryController(CategoryService categoryService, CategoryEntityToDTOConverter entityToDTOConverter, ValidationErrorService validationErrorService) {
+    public CategoryController(CategoryService categoryService, ValidationErrorService validationErrorService) {
 		this.categoryService = categoryService;
-		this.entityToDTOConverter = entityToDTOConverter;
 		this.validationErrorService = validationErrorService;
 	}
 
@@ -36,9 +31,7 @@ public class CategoryController extends AbstractController{
 
 		if (responseEntity != null) return responseEntity;
 
-		Category savedCategory = categoryService.save(categoryDTO);
-
-		CategoryDTO categoryJson = entityToDTOConverter.convert(savedCategory);
+        CategoryDTO categoryJson = categoryService.save(categoryDTO);
 
 		CategoryEvent categoryCreatedEvent = new CategoryEvent("One Category created", categoryJson);
 		applicationEventPublisher.publishEvent(categoryCreatedEvent);
@@ -65,16 +58,14 @@ public class CategoryController extends AbstractController{
 	}
 
 	@PutMapping("/categories/{id}")
-	public ResponseEntity<?> updateCategory(@NotNull @PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO, BindingResult result) {
+    public ResponseEntity<?> updateCategory(@PathVariable("id") long id, @RequestBody CategoryDTO categoryDTO, BindingResult result) {
         categoryService.getCategory(id);
 
 		ResponseEntity<?> responseEntity = validationErrorService.validationErrorService(result);
 
 		if (responseEntity != null) return responseEntity;
 
-		Category savedCategory = categoryService.update(categoryDTO, id);
-
-		CategoryDTO categoryJson = entityToDTOConverter.convert(savedCategory);
+        CategoryDTO categoryJson = categoryService.update(categoryDTO, id);
 
 		CategoryEvent categoryUpdatedEvent = new CategoryEvent("Category updated", categoryJson);
 		applicationEventPublisher.publishEvent(categoryUpdatedEvent);

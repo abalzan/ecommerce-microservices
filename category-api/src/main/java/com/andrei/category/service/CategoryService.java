@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class CategoryService {
 
@@ -25,16 +27,17 @@ public class CategoryService {
         this.entityToDTOConverter = entityToDTOConverter;
     }
 
-    public Category save(CategoryDTO categoryDTO) {
-        Category categoryEntity = dtoToEntityConverter.convert(categoryDTO);
-        return categoryRepository.save(categoryEntity);
+    public CategoryDTO save(CategoryDTO categoryDTO) {
+        final Category savedCategory = categoryRepository.save(Objects.requireNonNull(dtoToEntityConverter.convert(categoryDTO)));
+        return entityToDTOConverter.convert(savedCategory);
     }
 
-    public Category update(CategoryDTO categoryDTO, Long categoryId) {
+    public CategoryDTO update(CategoryDTO categoryDTO, long categoryId) {
         Category entity = dtoToEntityConverter.convert(categoryDTO);
         entity.setId(categoryId);
 
-        return categoryRepository.save(entity);
+        final Category updatedCategory = categoryRepository.save(entity);
+        return entityToDTOConverter.convert(updatedCategory);
     }
 
     public Page<CategoryDTO> getCategoryByPage(Integer pageNumber, Integer pageSize) {
