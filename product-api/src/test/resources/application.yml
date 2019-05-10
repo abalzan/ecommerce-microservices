@@ -18,3 +18,11 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
