@@ -17,6 +17,12 @@ jobs:
 
     steps:
       - checkout
+      
+      - run:
+          name: contract
+          command: mvn clean install
+      - store_artifacts:
+          path: /tmp/contract
 
       - run:
           name: product-api
