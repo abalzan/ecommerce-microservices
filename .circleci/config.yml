@@ -20,9 +20,10 @@ jobs:
       
       - run:
           name: contract
-          command: mvn clean install
+          command: mvn install
+          working_directory: contract
       - store_artifacts:
-          path: /tmp/contract
+          path: contract/target
 
       - run:
           name: product-api
