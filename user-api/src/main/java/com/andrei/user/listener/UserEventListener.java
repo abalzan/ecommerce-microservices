@@ -13,6 +13,6 @@ public class UserEventListener {
     public void onApplicationEvent(UserEvent userEvent){
 
         log.info("Received User Event:{} ", userEvent.getEventType());
-        log.info("Receive User From User Event: {} ", userEvent.getUser().toString());
+        log.info("Receive User From User Event: {} ", userEvent.getUserDTO().toString());
     }
 }

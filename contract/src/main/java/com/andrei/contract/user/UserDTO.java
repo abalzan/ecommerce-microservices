@@ -5,6 +5,7 @@ import com.andrei.contract.address.AddressDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,7 @@ import java.util.Date;
         "address"
 })
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

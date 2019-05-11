@@ -1,6 +1,6 @@
 package com.andrei.user.event;
 
-import com.andrei.user.model.User;
+import com.andrei.contract.user.UserDTO;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationEvent;
 public class UserEvent extends ApplicationEvent {
 
     private final String eventType;
-    private final User user;
+    private final UserDTO userDTO;
 
-    public UserEvent(Object source, String eventType, User user) {
+    public UserEvent(Object source, String eventType, UserDTO userDTO) {
         super(source);
         this.eventType = eventType;
-        this.user = user;
+        this.userDTO = userDTO;
     }
 }

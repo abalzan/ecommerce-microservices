@@ -1,5 +1,8 @@
 package com.andrei.user.service;
 
+import com.andrei.contract.user.UserDTO;
+import com.andrei.user.converter.UserDTOToEntityConverter;
+import com.andrei.user.converter.UserEntityToDTOConverter;
 import com.andrei.user.exception.ExceptionConstants;
 import com.andrei.user.model.User;
 import com.andrei.user.repository.AccountRepository;
@@ -19,26 +22,37 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
+    private final UserDTOToEntityConverter dtoToEntityConverter;
+    private final UserEntityToDTOConverter entityToDTOConverter;
 
-    public UserService(UserRepository userRepository, AccountRepository accountRepository) {
+    public UserService(UserRepository userRepository, AccountRepository accountRepository, UserDTOToEntityConverter dtoToEntityConverter, UserEntityToDTOConverter entityToDTOConverter) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
+        this.dtoToEntityConverter = dtoToEntityConverter;
+        this.entityToDTOConverter = entityToDTOConverter;
     }
 
-    public User save(User user) {
+    public UserDTO save(UserDTO userDTO) {
+
+        final User user = dtoToEntityConverter.convert(userDTO);
+
         accountRepository.save(user.getAccount());
-        return userRepository.save(user);
+        final User savedUser = userRepository.save(user);
+
+        return entityToDTOConverter.convert(savedUser);
     }
 
-    public Page<User> getUserByPage(Integer pageNumber, Integer pageSize) {
+    public Page<UserDTO> getUserByPage(Integer pageNumber, Integer pageSize) {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("username").descending());
 
-        return userRepository.findAll(pageable);
+        return userRepository.findAll(pageable).map(entityToDTOConverter::convert);
     }
 
-    public User getUser(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
+    public UserDTO getUser(Long userId) {
+        final User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
+
+        return entityToDTOConverter.convert(user);
     }
 
     public void deleteUser(Long userId) {

@@ -10,7 +10,7 @@
     "accountName": "Fake Account"
   },
   "address": {
-    "id": 1,
+    "addressId": 1,
     "houseNumber": "123",
     "streetAddress": "Main Street",
     "city": "Dublin",

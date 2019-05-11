@@ -1,6 +1,5 @@
 package com.andrei.contract.account;
 
-import com.andrei.contract.user.UserDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
@@ -12,8 +11,7 @@ import javax.validation.constraints.NotBlank;
 
 @JsonPropertyOrder({
         "accountNumber",
-        "accountName",
-        "user"
+        "accountName"
 })
 
 @Builder
@@ -29,8 +27,5 @@ public class AccountDTO {
     @NotBlank(message = "Account Name should not be null")
     @JsonProperty("accountName")
     private String accountName;
-
-    @JsonProperty("user")
-    private UserDTO user;
 
 }
