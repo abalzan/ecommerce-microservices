@@ -1,6 +1,6 @@
 package com.andrei.address.event;
 
-import com.andrei.address.model.Address;
+import com.andrei.contract.address.AddressDTO;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationEvent;
 public class AddressEvent extends ApplicationEvent {
 
     private final String eventType;
-    private final Address address;
+    private final AddressDTO addressDTO;
 
-    public AddressEvent(Object source, String eventType, Address address) {
+    public AddressEvent(Object source, String eventType, AddressDTO addressDTO) {
         super(source);
         this.eventType = eventType;
-        this.address = address;
+        this.addressDTO = addressDTO;
     }
 }

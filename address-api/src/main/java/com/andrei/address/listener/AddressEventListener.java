@@ -13,6 +13,6 @@ public class AddressEventListener {
     public void onApplicationEvent(AddressEvent addressEvent){
 
         log.info("Received Address Event:{} ", addressEvent.getEventType());
-        log.info("Receive Address From Address Event: {} ", addressEvent.getAddress().toString());
+        log.info("Receive Address From Address Event: {} ", addressEvent.getAddressDTO().toString());
     }
 }

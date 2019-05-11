@@ -6,4 +6,4 @@ VALUES
 INSERT INTO ADDRESS
 (CITY, HOUSE_NUMBER, STATE, STREET_ADDRESS, ZIP_CODE)
 VALUES
-('London', '456', 'LONDON', 'Secundary Street', 'E1 A1B2');
+('London', '456', 'LONDON', 'Secondary Street', 'E1 A1B2');

@@ -1,15 +1,15 @@
 {
   "content": [
     {
-      "id": 2,
+      "addressId": 2,
       "houseNumber": "456",
-      "streetAddress": "Secundary Street",
+      "streetAddress": "Secondary Street",
       "city": "London",
       "state": "LONDON",
       "zipCode": "E1 A1B2"
     },
     {
-      "id": 1,
+      "addressId": 1,
       "houseNumber": "123",
       "streetAddress": "Main Street",
       "city": "Dublin",
