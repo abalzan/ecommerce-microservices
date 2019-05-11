@@ -17,9 +17,9 @@
         "categoryName":"Televison",
         "categoryDescription":"Televison"
       },
-      "deleted":false,
-      "automotive":false,
-      "international":true
+      "isDeleted": false,
+      "isAutomotive": false,
+      "isInternational": true
     },
     {
       "productId": 2,
@@ -38,9 +38,9 @@
         "categoryName":"Televison",
         "categoryDescription":"Televison"
       },
-      "deleted":false,
-      "automotive":false,
-      "international":true
+      "isDeleted": false,
+      "isAutomotive": false,
+      "isInternational": true
     }
   ],
   "pageable":{

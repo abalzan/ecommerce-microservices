@@ -5,8 +5,9 @@
   "shortDescription":"Update product short description",
   "longDescription":"Update product long description",
   "canDisplay":"true",
-  "isDeleted":"false",
-  "isAutomotive":"false",
+  "isDeleted": "true",
+  "isAutomotive": "true",
+  "isInternational": true,
   "parentCategory": {
     "categoryId": "3",
     "categoryName":"Men's Clothing",

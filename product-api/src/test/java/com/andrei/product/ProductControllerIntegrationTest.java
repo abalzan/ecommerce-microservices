@@ -95,6 +95,9 @@ public class ProductControllerIntegrationTest extends BaseITContext {
 
         Product product = productOptional.get();
         assertEquals("UPDATECODE", product.getProductCode());
+        assertTrue(product.isDeleted());
+        assertTrue(product.isAutomotive());
+        assertTrue(product.isInternational());
 
     }
 

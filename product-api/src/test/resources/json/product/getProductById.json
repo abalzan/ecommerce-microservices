@@ -15,7 +15,7 @@
     "categoryName":"Televison",
     "categoryDescription":"Televison"
   },
-  "deleted":false,
-  "automotive":false,
-  "international":true
+  "isDeleted": false,
+  "isAutomotive": false,
+  "isInternational": true
 }

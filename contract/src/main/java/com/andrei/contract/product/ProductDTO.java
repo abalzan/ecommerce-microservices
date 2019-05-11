@@ -52,13 +52,10 @@ public class ProductDTO {
     @JsonProperty("canDisplay")
     private boolean canDisplay;
 
-    @JsonProperty("deleted")
     private boolean isDeleted;
 
-    @JsonProperty("automotive")
     private boolean isAutomotive;
 
-    @JsonProperty("international")
     private boolean isInternational;
 
     @JsonProperty("parentCategory")
@@ -66,5 +63,23 @@ public class ProductDTO {
 
     @JsonProperty("category")
     private CategoryDTO category;
+
+    // when boolean values starts with "is", json does not update the values
+    // as a workaround a getter needs to be created and JsonProperty specified there.
+    // https://stackoverflow.com/questions/32270422/jackson-renames-primitive-boolean-field-by-removing-is
+    @JsonProperty("isDeleted")
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    @JsonProperty("isAutomotive")
+    public boolean isAutomotive() {
+        return isAutomotive;
+    }
+
+    @JsonProperty("isInternational")
+    public boolean isInternational() {
+        return isInternational;
+    }
 
 }
