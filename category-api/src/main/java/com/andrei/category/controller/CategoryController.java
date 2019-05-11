@@ -65,7 +65,7 @@ public class CategoryController extends AbstractController{
 
 		if (responseEntity != null) return responseEntity;
 
-        CategoryDTO categoryJson = categoryService.update(categoryDTO, id);
+        CategoryDTO categoryJson = categoryService.save(categoryDTO);
 
 		CategoryEvent categoryUpdatedEvent = new CategoryEvent("Category updated", categoryJson);
 		applicationEventPublisher.publishEvent(categoryUpdatedEvent);

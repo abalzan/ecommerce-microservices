@@ -32,14 +32,6 @@ public class CategoryService {
         return entityToDTOConverter.convert(savedCategory);
     }
 
-    public CategoryDTO update(CategoryDTO categoryDTO, long categoryId) {
-        Category entity = dtoToEntityConverter.convert(categoryDTO);
-        entity.setId(categoryId);
-
-        final Category updatedCategory = categoryRepository.save(entity);
-        return entityToDTOConverter.convert(updatedCategory);
-    }
-
     public Page<CategoryDTO> getCategoryByPage(Integer pageNumber, Integer pageSize) {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("categoryName").descending());
