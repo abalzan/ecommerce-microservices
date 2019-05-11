@@ -1,19 +1,20 @@
 {
-  "id": 1,
+  "productId": 1,
   "productCode":"UPDATECODE",
   "productName":"Update product name",
   "shortDescription":"Update product short description",
   "longDescription":"Update product long description",
   "canDisplay":"true",
-  "isDeleted":"false",
-  "isAutomotive":"false",
+  "isDeleted": "true",
+  "isAutomotive": "true",
+  "isInternational": true,
   "parentCategory": {
-    "id":"3",
+    "categoryId": "3",
     "categoryName":"Men's Clothing",
     "categoryDescription":"Men's Branded Designer Clothing"
   },
   "category":{
-    "id":"4",
+    "categoryId": "4",
     "categoryName":"Young Men's Clothing",
     "categoryDescription":"Young Men's Branded Designer Clothing"
   }

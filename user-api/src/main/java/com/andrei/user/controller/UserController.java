@@ -1,7 +1,7 @@
 package com.andrei.user.controller;
 
+import com.andrei.contract.user.UserDTO;
 import com.andrei.user.event.UserEvent;
-import com.andrei.user.model.User;
 import com.andrei.user.service.UserService;
 import com.andrei.user.service.ValidationErrorService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ public class UserController extends AbstractController{
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO user, BindingResult result) {
 
 		ResponseEntity<?> responseEntity = validationErrorService.validationErrorService(result);
 
 		if (responseEntity != null) return responseEntity;
 
-		User savedUser = userService.save(user);
+        UserDTO savedUser = userService.save(user);
 
 		UserEvent userCreatedEvent = new UserEvent(this, "UserCreatedEvent", savedUser);
 		applicationEventPublisher.publishEvent(userCreatedEvent);
@@ -40,17 +40,18 @@ public class UserController extends AbstractController{
 	}
 
 	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getUser(@PathVariable("id") long id) {
-		User user = userService.getUser(id);
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id") long id) {
+        UserDTO userDTO = userService.getUser(id);
 
-		UserEvent userRetrievedEvent = new UserEvent(this,"UserRetrievedEvent", user);
+        UserEvent userRetrievedEvent = new UserEvent(this, "UserRetrievedEvent", userDTO);
 		applicationEventPublisher.publishEvent(userRetrievedEvent);
 
-		return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(userDTO);
 	}
 
 	@GetMapping("/users")
-	public @ResponseBody Page<User> getUsersByPage(
+    public @ResponseBody
+    Page<UserDTO> getUsersByPage(
 			@RequestParam(value="pagenumber", defaultValue=DEFAULT_PAGE_NUMBER) Integer pageNumber,
 			@RequestParam(value="pagesize", defaultValue=DEFAULT_PAGE_SIZE) Integer pageSize) {
 
@@ -58,16 +59,16 @@ public class UserController extends AbstractController{
 	}
 
 	@PutMapping("/users/{id}")
-	public ResponseEntity<?> updateUser(@Valid @PathVariable("id") long id, @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> updateUser(@Valid @PathVariable("id") long id, @RequestBody UserDTO userDTO, BindingResult result) {
 
 		ResponseEntity<?> responseEntity = validationErrorService.validationErrorService(result);
 
 		if (responseEntity != null) return responseEntity;
 
 		userService.getUser(id);
-		userService.save(user);
+        userService.save(userDTO);
 
-		UserEvent userUpdatedEvent = new UserEvent(this, "UserUpdatedEvent", user);
+        UserEvent userUpdatedEvent = new UserEvent(this, "UserUpdatedEvent", userDTO);
 		applicationEventPublisher.publishEvent(userUpdatedEvent);
 
 		return ResponseEntity.ok().body("User has been updated successfully.");

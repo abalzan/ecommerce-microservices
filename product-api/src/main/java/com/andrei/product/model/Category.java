@@ -17,7 +17,7 @@ public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 
 	@NotNull(message = "Category name should not be null")
 	@Column(name = "CATEGORY_NAME")

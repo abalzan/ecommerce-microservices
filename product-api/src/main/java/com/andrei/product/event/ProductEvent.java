@@ -1,6 +1,6 @@
 package com.andrei.product.event;
 
-import com.andrei.product.model.Product;
+import com.andrei.contract.product.ProductDTO;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationEvent;
 public class ProductEvent extends ApplicationEvent {
 
     private final String eventType;
-    private final Product product;
+    private final ProductDTO productDTO;
 
-    public ProductEvent(String eventType, Product product) {
-        super(product);
+    public ProductEvent(String eventType, ProductDTO productDTO) {
+        super(productDTO);
         this.eventType = eventType;
-        this.product = product;
+        this.productDTO = productDTO;
     }
 }

@@ -1,22 +1,22 @@
 {
   "content":[
     {
-      "id":4,
+      "categoryId":4,
       "categoryName":"Televison",
       "categoryDescription":"Televison"
     },
     {
-      "id":2,
+      "categoryId":2,
       "categoryName":"Oranges",
       "categoryDescription":"Oranges"
     },
     {
-      "id":1,
+      "categoryId":1,
       "categoryName":"Food",
       "categoryDescription":"Food"
     },
     {
-      "id":3,
+      "categoryId":3,
       "categoryName":"Electronics",
       "categoryDescription":"Electronics"
     }

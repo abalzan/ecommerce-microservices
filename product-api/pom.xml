@@ -113,7 +113,13 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>com.andrei.contract</groupId>
+            <artifactId>contract</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
 
 
 	<!-- Spring Cloud dependencies -->

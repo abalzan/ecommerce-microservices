@@ -1,6 +1,6 @@
 package com.andrei.category.event;
 
-import com.andrei.category.model.Category;
+import com.andrei.contract.category.CategoryDTO;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationEvent;
 public class CategoryEvent extends ApplicationEvent {
 
     private final String eventType;
-    private final Category category;
+    private final CategoryDTO categoryDTO;
 
-    public CategoryEvent(String eventType, Category category) {
-        super(category);
+    public CategoryEvent(String eventType, CategoryDTO categoryDTO) {
+        super(categoryDTO);
         this.eventType = eventType;
-        this.category = category;
+        this.categoryDTO = categoryDTO;
     }
 }

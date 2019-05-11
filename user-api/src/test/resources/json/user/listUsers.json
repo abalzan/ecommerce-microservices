@@ -1,7 +1,7 @@
 {
   "content": [
     {
-      "id": 2,
+      "userId": 2,
       "username": "johna",
       "firstName": "Johna",
       "lastName": "Does",
@@ -13,7 +13,7 @@
         "accountName": "Diamond Account"
       },
       "address": {
-        "id": 1,
+        "addressId": 1,
         "houseNumber": "123",
         "streetAddress": "Main Street",
         "city": "Dublin",
@@ -22,7 +22,7 @@
       }
     },
     {
-      "id": 1,
+      "userId": 1,
       "username": "john",
       "firstName": "John",
       "lastName": "Doe",
@@ -34,7 +34,7 @@
         "accountName": "Supper Account"
       },
       "address": {
-        "id": 1,
+        "addressId": 1,
         "houseNumber": "123",
         "streetAddress": "Main Street",
         "city": "Dublin",

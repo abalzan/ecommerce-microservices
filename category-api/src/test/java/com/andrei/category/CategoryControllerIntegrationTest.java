@@ -101,7 +101,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
         assertResponseStatusIsOk();
 
         Optional<Category> categoryOptional = repository.findById(1L);
-        assertTrue(Optional.ofNullable(categoryOptional).isPresent());
+        assertTrue(categoryOptional.isPresent());
 
         Category category = categoryOptional.get();
         assertEquals("Updating Category", category.getCategoryName());

@@ -18,7 +18,7 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private Long id;
+    private long id;
 
 	@NotNull(message = "product code should not be null")
 	@Column(name = "PCODE")

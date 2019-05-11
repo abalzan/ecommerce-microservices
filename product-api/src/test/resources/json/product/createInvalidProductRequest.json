@@ -4,15 +4,15 @@
   "shortDescription":"Fake product short description",
   "longDescription":"Fake product long description",
   "canDisplay":"true",
-  "isDeleted":"false",
-  "isAutomotive":"false",
+  "deleted": "false",
+  "automotive": "false",
   "parentCategory": {
-    "id":"3",
+    "categoryId": "3",
     "categoryName":"Men's Clothing",
     "categoryDescription":"Men's Branded Designer Clothing"
   },
   "category":{
-    "id":"4",
+    "categoryId": "4",
     "categoryName":"Young Men's Clothing",
     "categoryDescription":"Young Men's Branded Designer Clothing"
   }
