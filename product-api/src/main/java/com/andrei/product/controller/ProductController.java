@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class ProductController extends AbstractController{
 
 	private final ProductService  productService;

@@ -50,10 +50,6 @@ To see all the configured endpoints please check Swagger documentation:
 | user-api  | ```http://localhost:18200/swagger-ui.html``` |
 | address-api  | ```http://localhost:18300/swagger-ui.html``` |
 
-user-api ```http://localhost:18200/swagger-ui.html```
-
-address-api ```http://localhost:18300/swagger-ui.html```
-
 
 ### Eureka
 http://localhost:8761/

@@ -29,7 +29,7 @@ public class UserControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/user_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldListUsers() throws Exception {
-        response = sendGetRequest("/users");
+        response = sendGetRequest("/api/users");
         String expectedJson = getJsonAsString("json/user/listUsers.json");
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -38,7 +38,7 @@ public class UserControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/user_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldGetUserWhenUserIdIsValid() throws Exception {
-        response = sendGetRequest("/users/1");
+        response = sendGetRequest("/api/users/1");
         String expectedJson = getJsonAsString("json/user/getUserById.json");
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -47,14 +47,14 @@ public class UserControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/user_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldDeleteUserWhenUserIdIsValid() throws Exception {
-        response = sendDeleteRequest("/users/1");
+        response = sendDeleteRequest("/api/users/1");
         assertResponseStatusIsOk();
         assertEquals("User has been deleted successfully.", response.getContentAsString());
     }
 
     @Test
     public void shouldReturn404WhenTryDeleteUserIdIsNotValid() throws Exception {
-        response = sendDeleteRequest("/users/111");
+        response = sendDeleteRequest("/api/users/111");
         assertResponseStatusIsNotFound();
     }
 
@@ -65,7 +65,7 @@ public class UserControllerIntegrationTest extends BaseITContext {
         long registersBeforeTest = repository.count();
         String jsonInput = getJsonAsString("json/user/createUserRequest.json");
 
-        response = sendPostRequestWithJson("/users", jsonInput);
+        response = sendPostRequestWithJson("/api/users", jsonInput);
 
         assertEquals(repository.count(), ++registersBeforeTest);
         assertResponseStatusIsOk();
@@ -75,7 +75,7 @@ public class UserControllerIntegrationTest extends BaseITContext {
     @Test
     public void shouldNotCreateUserAndReturnBadRequest() throws Exception {
         String jsonInput = getJsonAsString("json/user/createInvalidUserRequest.json");
-        response = sendPostRequestWithJson("/users", jsonInput);
+        response = sendPostRequestWithJson("/api/users", jsonInput);
 
         assertResponseStatusIsBadRequest();
         assertEquals(0L, repository.count());
@@ -87,7 +87,7 @@ public class UserControllerIntegrationTest extends BaseITContext {
     public void shouldUpdateUserAndReturnOKFromPutWhenUserIdIsFound() throws Exception {
         String jsonInput = getJsonAsString("json/user/updateUserRequest.json");
 
-        response = sendPutRequestWithJson("/users/1", jsonInput);
+        response = sendPutRequestWithJson("/api/users/1", jsonInput);
         assertResponseStatusIsOk();
 
         Optional<User> userOptional = repository.findById(1L);
@@ -104,7 +104,7 @@ public class UserControllerIntegrationTest extends BaseITContext {
     public void shouldReturnNotFoundFromPutWhenUserIdIsNotFound() throws Exception {
         String jsonInput = getJsonAsString("json/user/updateUserRequest.json");
 
-        response = sendPutRequestWithJson("/users/1111", jsonInput);
+        response = sendPutRequestWithJson("/api/users/1111", jsonInput);
         assertResponseStatusIsNotFound();
     }
 

@@ -29,7 +29,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/category_product_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldListProducts() throws Exception {
-        response = sendGetRequest("/products");
+        response = sendGetRequest("/api/products");
         String expectedJson = getJsonAsString("json/product/listProductsAndCategories.json");
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -38,7 +38,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/category_product_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldGetProductWhenProductIdIsValid() throws Exception {
-        response = sendGetRequest("/products/1");
+        response = sendGetRequest("/api/products/1");
         String expectedJson = getJsonAsString("json/product/getProductById.json");
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -47,14 +47,14 @@ public class ProductControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/category_product_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldDeleteProductWhenProductIdIsValid() throws Exception {
-        response = sendDeleteRequest("/products/1");
+        response = sendDeleteRequest("/api/products/1");
         assertResponseStatusIsOk();
         assertEquals("Product has been deleted successfully.", response.getContentAsString());
     }
 
     @Test
     public void shouldReturn404WhenTryDeleteProductIdIsNotValid() throws Exception {
-        response = sendDeleteRequest("/products/111");
+        response = sendDeleteRequest("/api/products/111");
         assertResponseStatusIsNotFound();
     }
 
@@ -65,7 +65,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
         long registersBeforeTest = repository.count();
         String jsonInput = getJsonAsString("json/product/createProductRequest.json");
 
-        response = sendPostRequestWithJson("/products", jsonInput);
+        response = sendPostRequestWithJson("/api/products", jsonInput);
 
         assertEquals(repository.count(), ++registersBeforeTest);
         assertResponseStatusIsOk();
@@ -75,7 +75,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
     @Test
     public void shouldNotCreateProductAndReturnBadRequest() throws Exception {
         String jsonInput = getJsonAsString("json/product/createInvalidProductRequest.json");
-        response = sendPostRequestWithJson("/products", jsonInput);
+        response = sendPostRequestWithJson("/api/products", jsonInput);
 
         assertResponseStatusIsBadRequest();
         assertEquals(0L, repository.count());
@@ -87,7 +87,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
     public void shouldUpdateProductAndReturnOKFromPutWhenProductIdIsFound() throws Exception {
         String jsonInput = getJsonAsString("json/product/updateProductRequest.json");
 
-        response = sendPutRequestWithJson("/products/1", jsonInput);
+        response = sendPutRequestWithJson("/api/products/1", jsonInput);
         assertResponseStatusIsOk();
 
         Optional<Product> productOptional = repository.findById(1L);
@@ -107,7 +107,7 @@ public class ProductControllerIntegrationTest extends BaseITContext {
     public void shouldReturnNotFoundFromPutWhenProductIdIsNotFound() throws Exception {
         String jsonInput = getJsonAsString("json/product/updateProductRequest.json");
 
-        response = sendPutRequestWithJson("/products/1111", jsonInput);
+        response = sendPutRequestWithJson("/api/products/1111", jsonInput);
         assertResponseStatusIsNotFound();
     }
 

@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class UserController extends AbstractController{
 
 	private final UserService userService;
