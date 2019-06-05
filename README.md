@@ -70,6 +70,7 @@ The files are retrieved from git uri passed into the:
 spring.cloud.config.server.git.uri
 ```
 The configuration files can be retrieved from github, using the urls:
+
 | Application | URL |
 | --- | --- |
 | product-api | ```http://localhost:9000/product-api/dev``` |
