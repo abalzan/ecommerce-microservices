@@ -29,7 +29,7 @@ public class AddressControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/address_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldListAddresss() throws Exception {
-        response = sendGetRequest("/api/addresses");
+        response = sendGetRequest("/addresses");
         String expectedJson = getJsonAsString("json/address/listAddresses.json");
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -38,7 +38,7 @@ public class AddressControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/address_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldGetAddressWhenAddressIdIsValid() throws Exception {
-        response = sendGetRequest("/api/addresses/1");
+        response = sendGetRequest("/addresses/1");
         String expectedJson = getJsonAsString("json/address/getAddressById.json");
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -47,14 +47,14 @@ public class AddressControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = "classpath:sql/address_init.sql", executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:sql/truncate.sql", executionPhase = AFTER_TEST_METHOD)
     public void shouldDeleteAddressWhenAddressIdIsValid() throws Exception {
-        response = sendDeleteRequest("/api/addresses/1");
+        response = sendDeleteRequest("/addresses/1");
         assertResponseStatusIsOk();
         assertEquals("Address has been deleted successfully.", response.getContentAsString());
     }
 
     @Test
     public void shouldReturn404WhenTryDeleteAddressIdIsNotValid() throws Exception {
-        response = sendDeleteRequest("/api/addresses/111");
+        response = sendDeleteRequest("/addresses/111");
         assertResponseStatusIsNotFound();
     }
 
@@ -65,7 +65,7 @@ public class AddressControllerIntegrationTest extends BaseITContext {
         long registersBeforeTest = repository.count();
         String jsonInput = getJsonAsString("json/address/createAddressRequest.json");
 
-        response = sendPostRequestWithJson("/api/addresses", jsonInput);
+        response = sendPostRequestWithJson("/addresses", jsonInput);
 
         assertEquals(repository.count(), ++registersBeforeTest);
         assertResponseStatusIsOk();
@@ -75,7 +75,7 @@ public class AddressControllerIntegrationTest extends BaseITContext {
     @Test
     public void shouldNotCreateAddressAndReturnBadRequest() throws Exception {
         String jsonInput = getJsonAsString("json/address/createInvalidAddressRequest.json");
-        response = sendPostRequestWithJson("/api/addresses", jsonInput);
+        response = sendPostRequestWithJson("/addresses", jsonInput);
 
         assertResponseStatusIsBadRequest();
         assertEquals(0L, repository.count());
@@ -87,7 +87,7 @@ public class AddressControllerIntegrationTest extends BaseITContext {
     public void shouldUpdateAddressAndReturnOKFromPutWhenAddressIdIsFound() throws Exception {
         String jsonInput = getJsonAsString("json/address/updateAddressRequest.json");
 
-        response = sendPutRequestWithJson("/api/addresses/1", jsonInput);
+        response = sendPutRequestWithJson("/addresses/1", jsonInput);
         assertResponseStatusIsOk();
 
         Optional<Address> addressOptional = repository.findById(1L);
@@ -104,7 +104,7 @@ public class AddressControllerIntegrationTest extends BaseITContext {
     public void shouldReturnNotFoundFromPutWhenAddressIdIsNotFound() throws Exception {
         String jsonInput = getJsonAsString("json/address/updateAddressRequest.json");
 
-        response = sendPutRequestWithJson("/api/addresses/1111", jsonInput);
+        response = sendPutRequestWithJson("/addresses/1111", jsonInput);
         assertResponseStatusIsNotFound();
     }
 

@@ -39,7 +39,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = CATEGORY_INIT_SQL, executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = TRUNCATE_SQL, executionPhase = AFTER_TEST_METHOD)
     public void shouldListCategories() throws Exception {
-        response = sendGetRequest("/api/categories");
+        response = sendGetRequest("/categories");
         String expectedJson = getJsonAsString(JSON_CATEGORY_LIST_CATEGORIES_JSON);
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -48,7 +48,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = CATEGORY_INIT_SQL, executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = TRUNCATE_SQL, executionPhase = AFTER_TEST_METHOD)
     public void shouldGetCategoryWhenCategoryIdIsValid() throws Exception {
-        response = sendGetRequest("/api/categories/1");
+        response = sendGetRequest("/categories/1");
         String expectedJson = getJsonAsString(JSON_CATEGORY_GET_CATEGORY_BY_ID_JSON);
         assertResponseJsonEqualsExpectedJson(expectedJson, response.getContentAsString());
     }
@@ -57,14 +57,14 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
     @Sql(scripts = CATEGORY_INIT_SQL, executionPhase = BEFORE_TEST_METHOD)
     @Sql(scripts = TRUNCATE_SQL, executionPhase = AFTER_TEST_METHOD)
     public void shouldDeleteCategoryWhenCategoryIdIsValid() throws Exception {
-        response = sendDeleteRequest("/api/categories/1");
+        response = sendDeleteRequest("/categories/1");
         assertResponseStatusIsOk();
         assertEquals("Category has been deleted successfully.", response.getContentAsString());
     }
 
     @Test
     public void shouldReturn404WhenTryDeleteCategoryIdIsNotValid() throws Exception {
-        response = sendDeleteRequest("/api/categories/111");
+        response = sendDeleteRequest("/categories/111");
         assertResponseStatusIsNotFound();
     }
 
@@ -75,7 +75,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
         long registersBeforeTest = repository.count();
         String jsonInput = getJsonAsString(JSON_CATEGORY_CREATE_CATEGORY_REQUEST_JSON);
 
-        response = sendPostRequestWithJson("/api/categories", jsonInput);
+        response = sendPostRequestWithJson("/categories", jsonInput);
 
         assertEquals(repository.count(), ++registersBeforeTest);
         assertResponseStatusIsOk();
@@ -85,7 +85,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
     @Test
     public void shouldNotCreateCategoryAndReturnBadRequest() throws Exception {
         String jsonInput = getJsonAsString(JSON_CATEGORY_CREATE_INVALID_CATEGORY_REQUEST_JSON);
-        response = sendPostRequestWithJson("/api/categories", jsonInput);
+        response = sendPostRequestWithJson("/categories", jsonInput);
 
         assertResponseStatusIsBadRequest();
         assertEquals(0L, repository.count());
@@ -97,7 +97,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
     public void shouldUpdateCategoryAndReturnOKFromPutWhenCategoryIdIsFound() throws Exception {
         String jsonInput = getJsonAsString(JSON_CATEGORY_UPDATE_CATEGORY_REQUEST_JSON);
 
-        response = sendPutRequestWithJson("/api/categories/1", jsonInput);
+        response = sendPutRequestWithJson("/categories/1", jsonInput);
         assertResponseStatusIsOk();
 
         Optional<Category> categoryOptional = repository.findById(1L);
@@ -114,7 +114,7 @@ public class CategoryControllerIntegrationTest extends BaseITContext {
     public void shouldReturnNotFoundFromPutWhenCategoryIdIsNotFound() throws Exception {
         String jsonInput = getJsonAsString(JSON_CATEGORY_UPDATE_CATEGORY_REQUEST_JSON1);
 
-        response = sendPutRequestWithJson("/api/categories/1111", jsonInput);
+        response = sendPutRequestWithJson("/categories/1111", jsonInput);
         assertResponseStatusIsNotFound();
     }
 

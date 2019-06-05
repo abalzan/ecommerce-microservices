@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
 public class CategoryController extends AbstractController{
 
 	private final CategoryService  categoryService;
