@@ -19,7 +19,7 @@
         <module>address-api</module>
         <module>database-setup</module>
         <module>contract</module>
-        <module>zuul-gateway-service</module>
+        <module>gateway-service</module>
     </modules>
 
 </project>

@@ -29,7 +29,17 @@ For stopping our stack:
 # Database Setup
 In this project I am using flyway to create the database, for this I just create a separated project
  responsible just to create the tables and some initial data.
-```http://localhost:16600```
+```http://localhost:16600``` this is just a random port and it doesn't make any difference as after 
+the creation of the database the application shutdown.
+
+# Gateway Urls
+| Application | URL |
+| --- | --- |
+| product-api | ```http://localhost:8888/product/products``` |
+| category-api  | ```http://localhost:8888/category/categories``` |
+| user-api  | ```http://localhost:8888/user/users``` |
+| address-api  | ```http://localhost:8888/address/addresses``` |
+
 
 # Application URLs
 To see all the configured endpoints please check Swagger documentation:
@@ -60,9 +70,13 @@ The files are retrieved from git uri passed into the:
 spring.cloud.config.server.git.uri
 ```
 The configuration files can be retrieved from github, using the urls:
-http://localhost:9000/product-api/dev
-
-http://localhost:9000/category-api/dev
+| Application | URL |
+| --- | --- |
+| product-api | ```http://localhost:9000/product-api/dev``` |
+| category-api  | ```http://localhost:9000/category-api/dev``` |
+| user-api  | ```http://localhost:9000/user-api/dev``` |
+| address-api  | ```http://localhost:9000/address-api/dev``` |
+| gateway-service  | ```http://localhost:9000/gateway-service/dev``` |
 
 ### Actuator
 Each project has actuator configured, follow the Urls:
