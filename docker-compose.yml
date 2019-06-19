@@ -2,11 +2,21 @@
 #https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y/41854997#41854997
 version: '3'
 services:
+
+  eureka-service-discovery:
+    build: ./eureka-service-discovery
+    container_name: eureka-service-discovery
+    hostname: eureka-service-discovery
+    ports:
+      - 8761:8761
+    networks:
+      - ecommercenet
+
   mysqldb:
     container_name: mysqldb
-    image: mysql:latest
+    image: mysql:8
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: ecommerce
@@ -21,19 +31,49 @@ services:
     build: ./remote-config-service
     hostname: remote-config-service
     ports:
-      - 9000:9000
-      - 9001:9001
+      - "9000:9000"
+      - "9001:9001"
+    command: >
+      -c "
+      while ! (nc -z eureka-service-discovery 8761); do sleep 5; echo 'Waiting for eureka-service-discovery service to start-up...'; done;
+        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /remote-config-service-0.0.1-SNAPSHOT.jar
+      "
+    depends_on:
+      - eureka-service-discovery
+    networks:
+      - ecommercenet
+
+  database-setup:
+    container_name: database-setup
+    build: ./database-setup
+    hostname: database-setup
+    ports:
+      - "16000:16000"
+    command: >
+      -c "
+      while ! (nc -z mysqldb 3306); do sleep 5; echo 'Waiting for mysqldb service to start-up...'; done;
+        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /database-setup-0.0.1-SNAPSHOT.jar
+      "
     depends_on:
       - mysqldb
     networks:
       - ecommercenet
 
-  eureka-service-discovery:
-    build: ./eureka-service-discovery
-    container_name: eureka-service-discovery
-    hostname: eureka-service-discovery
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    hostname: gateway-service
     ports:
-      - 8761:8761
+      - "8888:8888"
+    command: >
+      -c "
+      while ! (nc -z eureka-service-discovery 8761 && nc -z remote-config-service 9000); do sleep 5;
+        echo 'Waiting for eureka-service-discovery and remote-config-service services to start-up...'; done;
+        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /gateway-service-0.0.1-SNAPSHOT.jar
+      "
+    depends_on:
+      - eureka-service-discovery
+      - remote-config-service
     networks:
       - ecommercenet
 
@@ -42,13 +82,13 @@ services:
     build: ./product-api
     hostname: product-api
     ports:
-      - 18000:18000
-      - 8091:8091
+      - "18000:18000"
+      - "8091:8091"
+    command: >
+      bash -c "/usr/local/src/wait-for-it.sh --timeout=0 gateway-service:8888 -- java -jar product-api-0.0.1-SNAPSHOT.jar"
     depends_on:
-      - eureka-service-discovery
-      - remote-config-service
-      - mysqldb
-    restart: always
+      - gateway-service
+    restart: on-failure
     networks:
       - ecommercenet
 
@@ -59,8 +99,50 @@ services:
     ports:
       - "18100:18100"
       - "8092:8092"
+    command: >
+      -c "
+      while ! (nc -z product-api 18000); do sleep 5;
+        echo 'Waiting for product-api to start-up...'; done;
+        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /category-api-0.0.1-SNAPSHOT.jar
+      "
     depends_on:
       - product-api
+    networks:
+      - ecommercenet
+
+  address-api:
+    container_name: address-api
+    build: ./address-api
+    hostname: address-api
+    ports:
+      - "18300:18300"
+      - "8094:8094"
+    command: >
+      -c "
+      while ! (nc -z category-api 18100); do sleep 5;
+          echo 'Waiting for category-api to start-up...'; done;
+          java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /address-api-0.0.1-SNAPSHOT.jar
+      "
+    depends_on:
+      - category-api
+    networks:
+      - ecommercenet
+
+  user-api:
+    container_name: user-api
+    build: ./user-api
+    hostname: user-api
+    ports:
+      - "18200:18200"
+      - "8093:8093"
+    command: >
+      -c "
+      while ! (nc -z address-api 18300); do sleep 5;
+       echo 'Waiting for address-api to start-up...'; done;
+      java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /user-api-0.0.1-SNAPSHOT.jar
+      "
+    depends_on:
+      - address-api
     networks:
       - ecommercenet
 
