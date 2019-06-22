@@ -1,6 +1,4 @@
-#WIP, check link bellow
-#https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y/41854997#41854997
-version: '3'
+version: '2.4'
 services:
 
   eureka-service-discovery:
@@ -9,6 +7,11 @@ services:
     hostname: eureka-service-discovery
     ports:
       - 8761:8761
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
     networks:
       - ecommercenet
 
@@ -23,6 +26,11 @@ services:
       MYSQL_USER: ecommerce
       MYSQL_PASSWORD: ecommerce
     hostname: mysqldb
+    healthcheck:
+      test: mysqladmin -uecommerce -pecommerce ping
+      interval: 2s
+      timeout: 5s
+      retries: 30
     networks:
       - ecommercenet
 
@@ -33,13 +41,14 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
-    command: >
-      -c "
-      while ! (nc -z eureka-service-discovery 8761); do sleep 5; echo 'Waiting for eureka-service-discovery service to start-up...'; done;
-        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /remote-config-service-0.0.1-SNAPSHOT.jar
-      "
     depends_on:
-      - eureka-service-discovery
+      eureka-service-discovery:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/product-api/dev"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
     networks:
       - ecommercenet
 
@@ -49,13 +58,13 @@ services:
     hostname: database-setup
     ports:
       - "16000:16000"
-    command: >
-      -c "
-      while ! (nc -z mysqldb 3306); do sleep 5; echo 'Waiting for mysqldb service to start-up...'; done;
-        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /database-setup-0.0.1-SNAPSHOT.jar
-      "
     depends_on:
-      - mysqldb
+      mysqldb:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -65,15 +74,20 @@ services:
     hostname: gateway-service
     ports:
       - "8888:8888"
-    command: >
-      -c "
-      while ! (nc -z eureka-service-discovery 8761 && nc -z remote-config-service 9000); do sleep 5;
-        echo 'Waiting for eureka-service-discovery and remote-config-service services to start-up...'; done;
-        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /gateway-service-0.0.1-SNAPSHOT.jar
-      "
     depends_on:
-      - eureka-service-discovery
-      - remote-config-service
+      eureka-service-discovery:
+        condition: service_healthy
+      remote-config-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/info"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -84,11 +98,13 @@ services:
     ports:
       - "18000:18000"
       - "8091:8091"
-    command: >
-      bash -c "/usr/local/src/wait-for-it.sh --timeout=0 gateway-service:8888 -- java -jar product-api-0.0.1-SNAPSHOT.jar"
     depends_on:
-      - gateway-service
-    restart: on-failure
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -99,14 +115,13 @@ services:
     ports:
       - "18100:18100"
       - "8092:8092"
-    command: >
-      -c "
-      while ! (nc -z product-api 18000); do sleep 5;
-        echo 'Waiting for product-api to start-up...'; done;
-        java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /category-api-0.0.1-SNAPSHOT.jar
-      "
     depends_on:
-      - product-api
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -117,14 +132,13 @@ services:
     ports:
       - "18300:18300"
       - "8094:8094"
-    command: >
-      -c "
-      while ! (nc -z category-api 18100); do sleep 5;
-          echo 'Waiting for category-api to start-up...'; done;
-          java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /address-api-0.0.1-SNAPSHOT.jar
-      "
     depends_on:
-      - category-api
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -135,14 +149,13 @@ services:
     ports:
       - "18200:18200"
       - "8093:8093"
-    command: >
-      -c "
-      while ! (nc -z address-api 18300); do sleep 5;
-       echo 'Waiting for address-api to start-up...'; done;
-      java -Xdebug -Xrunjdwp:server=y,transport=dt_socket, suspend=n -jar /user-api-0.0.1-SNAPSHOT.jar
-      "
     depends_on:
-      - address-api
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
