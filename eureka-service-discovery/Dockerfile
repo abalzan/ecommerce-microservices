@@ -1,8 +1,11 @@
 FROM openjdk:11.0.2-jre-stretch
 
-RUN ["mkdir", "/root/eureka-service-discovery"]
-COPY target/eureka-service-discovery-0.0.1-SNAPSHOT.jar /root/eureka-service-discovery/
+ENV JAVA_OPTS=""
 
-ENTRYPOINT java -jar /root/eureka-service-discovery/eureka-service-discovery-0.0.1-SNAPSHOT.jar
+ADD ["target/eureka-service-discovery-0.0.1-SNAPSHOT.jar", "eureka-service-discovery-0.0.1-SNAPSHOT.jar"]
+
+RUN sh -c 'touch /"eureka-service-discovery-0.0.1-SNAPSHOT.jar"'
+
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /eureka-service-discovery-0.0.1-SNAPSHOT.jar" ]
 
 EXPOSE 8761

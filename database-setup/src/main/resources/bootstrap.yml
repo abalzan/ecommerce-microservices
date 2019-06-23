@@ -3,6 +3,3 @@ server:
 spring:
   application:
     name: database-setup
-  cloud:
-    config:
-      uri: http://localhost:9000

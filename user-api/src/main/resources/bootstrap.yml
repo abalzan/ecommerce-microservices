@@ -1,10 +1,11 @@
 server:
   port: 18200
 spring:
-  profiles:
-    active: dev
   application:
     name: user-api
-  cloud:
-    config:
-      uri: http://localhost:9000
+  #https://stackoverflow.com/questions/40779664/caused-by-org-hibernate-hibernateexception-access-to-dialectresolutioninfo-can/53824551
+  jpa:
+    database: mysql
+ribbon:
+  eureka:
+    enabled: true

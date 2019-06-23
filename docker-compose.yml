@@ -1,18 +1,36 @@
-#WIP, check link bellow
-#https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y/41854997#41854997
-version: '3'
+version: '2.4'
 services:
+
+  eureka-service-discovery:
+    build: ./eureka-service-discovery
+    container_name: eureka-service-discovery
+    hostname: eureka-service-discovery
+    ports:
+      - 8761:8761
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    networks:
+      - ecommercenet
+
   mysqldb:
     container_name: mysqldb
-    image: mysql:latest
+    image: mysql:8
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: ecommerce
       MYSQL_USER: ecommerce
       MYSQL_PASSWORD: ecommerce
     hostname: mysqldb
+    healthcheck:
+      test: mysqladmin -uecommerce -pecommerce ping
+      interval: 2s
+      timeout: 5s
+      retries: 30
     networks:
       - ecommercenet
 
@@ -21,19 +39,57 @@ services:
     build: ./remote-config-service
     hostname: remote-config-service
     ports:
-      - 9000:9000
-      - 9001:9001
+      - "9000:9000"
+      - "9001:9001"
     depends_on:
-      - mysqldb
+      eureka-service-discovery:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/product-api/dev"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
     networks:
       - ecommercenet
 
-  eureka-service-discovery:
-    build: ./eureka-service-discovery
-    container_name: eureka-service-discovery
-    hostname: eureka-service-discovery
+  database-setup:
+    container_name: database-setup
+    build: ./database-setup
+    hostname: database-setup
     ports:
-      - 8761:8761
+      - "16000:16000"
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+      remote-config-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
+    networks:
+      - ecommercenet
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    hostname: gateway-service
+    ports:
+      - "8888:8888"
+    depends_on:
+      eureka-service-discovery:
+        condition: service_healthy
+      remote-config-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/info"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -42,13 +98,15 @@ services:
     build: ./product-api
     hostname: product-api
     ports:
-      - 18000:18000
-      - 8091:8091
+      - "18000:18000"
+      - "8091:8091"
     depends_on:
-      - eureka-service-discovery
-      - remote-config-service
-      - mysqldb
-    restart: always
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 
@@ -60,7 +118,46 @@ services:
       - "18100:18100"
       - "8092:8092"
     depends_on:
-      - product-api
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
+    networks:
+      - ecommercenet
+
+  address-api:
+    container_name: address-api
+    build: ./address-api
+    hostname: address-api
+    ports:
+      - "18300:18300"
+      - "8094:8094"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
+    networks:
+      - ecommercenet
+
+  user-api:
+    container_name: user-api
+    build: ./user-api
+    hostname: user-api
+    ports:
+      - "18200:18200"
+      - "8093:8093"
+    depends_on:
+      gateway-service:
+        condition: service_healthy
+    environment:
+      - JAVA_OPTS=
+        -Djava.security.egd=file:/dev/./urandom
+        -Dspring.profiles.active=docker
     networks:
       - ecommercenet
 

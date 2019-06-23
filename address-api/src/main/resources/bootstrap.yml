@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: address-api
-  cloud:
-    config:
-      uri: http://localhost:9000
+  #https://stackoverflow.com/questions/40779664/caused-by-org-hibernate-hibernateexception-access-to-dialectresolutioninfo-can/53824551
+  jpa:
+    database: mysql
+ribbon:
+  eureka:
+    enabled: true

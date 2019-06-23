@@ -3,3 +3,10 @@ server:
 spring:
   application:
     name: category-api
+  #https://stackoverflow.com/questions/40779664/caused-by-org-hibernate-hibernateexception-access-to-dialectresolutioninfo-can/53824551
+  jpa:
+    database: mysql
+
+ribbon:
+  eureka:
+    enabled: true

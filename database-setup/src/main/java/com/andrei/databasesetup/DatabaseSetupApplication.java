@@ -10,7 +10,6 @@ public class DatabaseSetupApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DatabaseSetupApplication.class, args);
-        System.exit(0);
     }
 
 }
