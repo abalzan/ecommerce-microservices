@@ -61,6 +61,8 @@ services:
     depends_on:
       mysqldb:
         condition: service_healthy
+      remote-config-service:
+        condition: service_healthy
     environment:
       - JAVA_OPTS=
         -Djava.security.egd=file:/dev/./urandom
