@@ -26,6 +26,9 @@ For stopping our stack:
 
 ```$ docker-compose stop```
 
+#Profile Setup
+This project use two main profiles dev and docker, so when you import this project and try to run it locally please set the default profile as "dev"
+
 # Database Setup
 In this project I am using flyway to create the database, for this I just create a separated project
  responsible just to create the tables and some initial data.
