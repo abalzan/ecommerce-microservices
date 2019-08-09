@@ -82,12 +82,3 @@ The configuration files can be retrieved from github, using the urls:
 | address-api  | ```http://localhost:9000/address-api/dev``` |
 | gateway-service  | ```http://localhost:9000/gateway-service/dev``` |
 
-### Actuator
-Each project has actuator configured, follow the Urls:
-
-| Application | URL |
-| --- | --- |
-| product-api | ```http://localhost:8091/actuator``` |
-| category-api  | ```http://localhost:8092/actuator``` |
-| user-api  | ```http://localhost:8093/actuator``` |
-| address-api  | ```http://localhost:8094/actuator``` |
