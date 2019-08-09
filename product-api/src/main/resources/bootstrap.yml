@@ -1,11 +1,17 @@
 server:
-  port: 18000
+  port: ${PORT:18000}
 spring:
   application:
     name: product-api
   #https://stackoverflow.com/questions/40779664/caused-by-org-hibernate-hibernateexception-access-to-dialectresolutioninfo-can/53824551
   jpa:
     database: mysql
+
+# configuration to register multiple instances on eureka.
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
 ribbon:
   eureka:
     enabled: true
