@@ -2,13 +2,13 @@ package com.andrei.product.service;
 
 import com.andrei.contract.category.CategoryDTO;
 import com.andrei.contract.product.ProductDTO;
-import com.andrei.product.converter.ProductDTOToEntityConverter;
-import com.andrei.product.converter.ProductEntityToDTOConverter;
 import com.andrei.product.exception.ExceptionConstants;
 import com.andrei.product.feign.CategoryFeignClient;
+import com.andrei.product.mapper.ProductMapper;
 import com.andrei.product.model.Product;
 import com.andrei.product.repository.ProductRepository;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,31 +22,24 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryFeignClient categoryFeignClient;
-    private final ProductEntityToDTOConverter entityToDTOConverter;
-    private final ProductDTOToEntityConverter dtoToEntityConverter;
-
-    public ProductService(ProductRepository productRepository, CategoryFeignClient categoryFeignClient, ProductEntityToDTOConverter entityToDTOConverter, ProductDTOToEntityConverter dtoToEntityConverter) {
-        this.productRepository = productRepository;
-        this.categoryFeignClient = categoryFeignClient;
-        this.entityToDTOConverter = entityToDTOConverter;
-        this.dtoToEntityConverter = dtoToEntityConverter;
-    }
+    private final ProductMapper mapper;
 
     public Page<ProductDTO> getProductByPage(Integer pageNumber, Integer pageSize) {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("productName").descending());
 
-        return productRepository.findAll(pageable).map(entityToDTOConverter::convert);
+        return productRepository.findAll(pageable).map(mapper::productToProductDto);
     }
 
     public ProductDTO getProduct(long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ExceptionConstants.RESOURCE_NOT_FOUND));
-        return entityToDTOConverter.convert(product);
+        return mapper.productToProductDto(product);
     }
 
     public void deleteProduct(long productId) {
@@ -59,18 +52,18 @@ public class ProductService {
 
         validateProductCategories(productDTO);
 
-        final Product savedProduct = productRepository.save(Objects.requireNonNull(dtoToEntityConverter.convert(productDTO)));
+        final Product savedProduct = productRepository.save(Objects.requireNonNull(mapper.productDtoToProduct(productDTO)));
 
-        return entityToDTOConverter.convert(savedProduct);
+        return mapper.productToProductDto(savedProduct);
     }
 
     public ProductDTO saveProductWithoutValidation(ProductDTO productDTO) {
         log.error("Hystrix circuit breaker enabled on saveProductWithoutValidation");
         try {
-            Product product = dtoToEntityConverter.convert(productDTO);
+            Product product = mapper.productDtoToProduct(productDTO);
             final Product savedProduct = productRepository.save(Objects.requireNonNull(product));
 
-            return entityToDTOConverter.convert(savedProduct);
+            return mapper.productToProductDto(savedProduct);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.INVALID_REQUEST, e.getCause());
         }
@@ -79,7 +72,8 @@ public class ProductService {
     private ProductDTO validateProductCategories(ProductDTO productDTO) {
 
         Optional.ofNullable(productDTO.getCategory())
-                .map(this::validateCategory).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.CATEGORY_DOES_NOT_EXISTS));
+                .map(this::validateCategory)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.CATEGORY_DOES_NOT_EXISTS));
 
         Optional.ofNullable(productDTO.getParentCategory())
                 .map(this::validateCategory)
