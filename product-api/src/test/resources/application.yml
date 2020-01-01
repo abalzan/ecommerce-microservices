@@ -12,13 +12,8 @@ spring:
         jdbc-url: jdbc:h2:mem:db;MODE=MYSQL;INIT=CREATE SCHEMA IF NOT EXISTS `ecommerce`; SET SCHEMA `ecommerce`;
         password: sa
         username: sa
-    flyway:
-        enabled: false
     jpa:
-        properties:
-            hibernate:
-                format_sql: true
-
+      database: mysql
 hystrix:
   command:
     default:

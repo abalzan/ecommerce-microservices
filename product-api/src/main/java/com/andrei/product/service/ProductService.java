@@ -46,7 +46,6 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-
     @HystrixCommand(fallbackMethod = "saveProductWithoutValidation")
     public ProductDTO save(ProductDTO productDTO) {
 
@@ -61,7 +60,7 @@ public class ProductService {
         log.error("Hystrix circuit breaker enabled on saveProductWithoutValidation");
         try {
             Product product = mapper.productDtoToProduct(productDTO);
-            final Product savedProduct = productRepository.save(Objects.requireNonNull(product));
+            final Product savedProduct = productRepository.saveAndFlush(Objects.requireNonNull(product));
 
             return mapper.productToProductDto(savedProduct);
         }catch (Exception e){
@@ -72,12 +71,10 @@ public class ProductService {
     private ProductDTO validateProductCategories(ProductDTO productDTO) {
 
         Optional.ofNullable(productDTO.getCategory())
-                .map(this::validateCategory)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.CATEGORY_DOES_NOT_EXISTS));
+                .map(this::validateCategory);
 
         Optional.ofNullable(productDTO.getParentCategory())
-                .map(this::validateCategory)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ExceptionConstants.PARENT_CATEGORY_DOES_NOT_EXISTS));
+                .map(this::validateCategory);
 
         return productDTO;
     }

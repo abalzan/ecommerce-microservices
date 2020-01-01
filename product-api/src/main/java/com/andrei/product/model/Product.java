@@ -48,11 +48,11 @@ public class Product {
 	@Column(name = "IS_INTERNATIONAL")
 	private boolean isInternational;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "PARENT_CATEGORY_ID")
 	private Category parentCategory;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
 
