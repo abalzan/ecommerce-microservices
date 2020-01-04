@@ -6,6 +6,11 @@
 
 <a href="https://codeclimate.com/github/abalzan/ecommerce-microservices/maintainability"><img src="https://api.codeclimate.com/v1/badges/93e3fea017ac2189d186/maintainability" /></a>
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=abalzan_ecommerce-microservices&metric=alert_status)](https://sonarcloud.io/dashboard?id=abalzan_ecommerce-microservices)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=abalzan_ecommerce-microservices&metric=security_rating)](https://sonarcloud.io/dashboard?id=abalzan_ecommerce-microservices)
+
+
 # Run application using docker
 
 ```$ mvn clean install```
