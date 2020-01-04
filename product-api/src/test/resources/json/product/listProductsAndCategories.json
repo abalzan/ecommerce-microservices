@@ -19,7 +19,7 @@
       },
       "isDeleted": false,
       "isAutomotive": false,
-      "isInternational": true
+      "isInternational": false
     },
     {
       "productId": 2,
@@ -40,7 +40,7 @@
       },
       "isDeleted": false,
       "isAutomotive": false,
-      "isInternational": true
+      "isInternational": false
     }
   ],
   "pageable":{

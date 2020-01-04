@@ -48,12 +48,12 @@ public class Product {
 	@Column(name = "IS_INTERNATIONAL")
 	private boolean isInternational;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "PARENT_CATEGORY_ID")
 	private Category parentCategory;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
-	
+
 }

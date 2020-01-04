@@ -2,22 +2,21 @@ package com.andrei.product;
 
 import com.andrei.product.model.Product;
 import com.andrei.product.repository.ProductRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles(profiles = "test")
 public class ProductControllerIntegrationTest extends BaseITContext {
@@ -95,9 +94,9 @@ public class ProductControllerIntegrationTest extends BaseITContext {
 
         Product product = productOptional.get();
         assertEquals("UPDATECODE", product.getProductCode());
-        assertTrue(product.isDeleted());
-        assertTrue(product.isAutomotive());
-        assertTrue(product.isInternational());
+        assertFalse(product.isDeleted());
+        assertFalse(product.isAutomotive());
+        assertFalse(product.isInternational());
 
     }
 
