@@ -22,4 +22,9 @@
         <module>gateway-service</module>
     </modules>
 
+    <properties>
+        <sonar.projectKey>abalzan_ecommerce-microservices</sonar.projectKey>
+        <sonar.organization>abalzan-github</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    </properties>
 </project>

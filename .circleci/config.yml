@@ -57,3 +57,14 @@ jobs:
       - run:
           name: Send to CodeCov
           command: bash <(curl -s https://codecov.io/bash)
+
+      #sonar analysis
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar
+
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
